@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="space_between_views">8dp</dimen>
+    <dimen name="info_text_size">16sp</dimen>
+    <dimen name="question_padding">24dp</dimen>
+    <dimen name="question_text_size">22sp</dimen>
+    <dimen name="button_text_size">16sp</dimen>
+    <dimen name="end_info_text_size">24sp</dimen>
+</resources>
