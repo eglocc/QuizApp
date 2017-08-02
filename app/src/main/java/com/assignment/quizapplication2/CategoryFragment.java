@@ -39,13 +39,14 @@ public class CategoryFragment extends ListFragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<String> nameList = new ArrayList<String>();
+                long count = 0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    Log.d("key", child.getKey());
-                    Log.d("value", child.getValue().toString());
                     String name = child.getValue(String.class);
-                    mCategoryList.add(new Category(name));
+                    Log.d("name", name);
+                    Log.d("ID", String.valueOf(count));
+                    mCategoryList.add(new Category(name, count));
                     nameList.add(name);
-                    Log.d("category", mCategoryList.get(0).toString());
+                    count++;
                 }
 
                 String names[] = new String[nameList.size()];

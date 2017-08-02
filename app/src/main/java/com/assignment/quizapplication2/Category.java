@@ -7,12 +7,14 @@ public class Category implements Parcelable {
 
     private String mName;
     private Quiz mQuiz;
+    private long mId;
 
     private Category() {
     }
 
-    public Category(String name) {
+    public Category(String name, long id) {
         this.mName = name;
+        this.mId = id;
         this.mQuiz = new Quiz();
     }
 

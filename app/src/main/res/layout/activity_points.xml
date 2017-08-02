@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/margin_y_for_points"
+    android:layout_marginBottom="@dimen/margin_y_for_points"
+    android:layout_marginLeft="@dimen/margin_x_for_points"
+    android:layout_marginRight="@dimen/margin_x_for_points">
+
+    <fragment
+        class="com.assignment.quizapplication2.PointsFragment"
+        android:id="@+id/points_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

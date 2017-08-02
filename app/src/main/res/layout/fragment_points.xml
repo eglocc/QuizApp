@@ -2,44 +2,43 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/margin_y_for_points"
-    android:layout_marginBottom="@dimen/margin_y_for_points"
-    android:layout_marginLeft="@dimen/margin_x_for_points"
-    android:layout_marginRight="@dimen/margin_x_for_points">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_between_buttons_vertically">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/points_button" />
+        android:layout_height="wrap_content">
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/points_button"
-            android:layout_marginLeft="@dimen/space_between_buttons_horizontally" />
+            android:text="100" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/points_button"
-            android:layout_marginLeft="@dimen/space_between_buttons_horizontally" />
+            android:layout_marginLeft="@dimen/space_between_buttons_horizontally"
+            android:text="200" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/points_button"
-            android:layout_marginLeft="@dimen/space_between_buttons_horizontally" />
+            android:layout_marginLeft="@dimen/space_between_buttons_horizontally"
+            android:text="300" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/points_button"
+            android:layout_marginLeft="@dimen/space_between_buttons_horizontally"
+            android:text="400" />
 
     </LinearLayout>
 
@@ -53,28 +52,32 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/points_button" />
+            android:background="@drawable/points_button"
+            android:text="100" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/points_button"
-            android:layout_marginLeft="@dimen/space_between_buttons_horizontally" />
+            android:layout_marginLeft="@dimen/space_between_buttons_horizontally"
+            android:text="200" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/points_button"
-            android:layout_marginLeft="@dimen/space_between_buttons_horizontally" />
+            android:layout_marginLeft="@dimen/space_between_buttons_horizontally"
+            android:text="300" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/points_button"
-            android:layout_marginLeft="@dimen/space_between_buttons_horizontally" />
+            android:layout_marginLeft="@dimen/space_between_buttons_horizontally"
+            android:text="400" />
 
     </LinearLayout>
 
@@ -88,28 +91,32 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/points_button" />
+            android:background="@drawable/points_button"
+            android:text="100" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/points_button"
-            android:layout_marginLeft="@dimen/space_between_buttons_horizontally" />
+            android:layout_marginLeft="@dimen/space_between_buttons_horizontally"
+            android:text="200" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/points_button"
-            android:layout_marginLeft="@dimen/space_between_buttons_horizontally" />
+            android:layout_marginLeft="@dimen/space_between_buttons_horizontally"
+            android:text="300" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/points_button"
-            android:layout_marginLeft="@dimen/space_between_buttons_horizontally" />
+            android:layout_marginLeft="@dimen/space_between_buttons_horizontally"
+            android:text="400" />
 
     </LinearLayout>
 
