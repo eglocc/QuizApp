@@ -12,7 +12,7 @@ public class User implements Parcelable {
     private int mScore;
 
     public User(){
-        this.mNickname = null;
+        this.mNickname = "";
         this.mScore = 0;
     }
 

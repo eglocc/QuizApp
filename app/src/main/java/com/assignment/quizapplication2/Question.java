@@ -3,26 +3,27 @@ package com.assignment.quizapplication2;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class Question implements Parcelable {
 
     static final int mTimeLimit = 15;
     static final int mNumberOfAnswers = 4;
 
+    private String mCategory;
     private String mText;
-    private int mNumber;
-    private List<Answer> mAnswerSet;
-    private Answer mAnswerTrue;
+    private int mId;
+    private int mScore;
+    private HashMap<String, Boolean> mAnswerMap;
     private int mRemainingTime;
     private boolean mAnsweredCorrectly;
     private boolean mAnsweredWrong;
 
-    public Question(String text, int no) {
+    public Question(String text, int score, String category, HashMap<String, Boolean> answers) {
         this.mText = text;
-        this.mNumber = no;
-        this.mAnswerSet = new ArrayList<>();
+        this.mScore = score;
+        this.mCategory = category;
+        this.mAnswerMap = answers;
         this.mRemainingTime = mTimeLimit;
     }
 
@@ -31,45 +32,52 @@ public class Question implements Parcelable {
 
     private Question(Parcel source) {
         this.mText = source.readString();
-        this.mNumber = source.readInt();
-        mAnswerSet = new ArrayList<Answer>();
-        source.readList(mAnswerSet, Answer.class.getClassLoader());
-        this.mAnswerTrue = source.readParcelable(Answer.class.getClassLoader());
+        this.mId = source.readInt();
+        this.mCategory = source.readString();
+        this.mAnswerMap = source.readHashMap(null);
         this.mRemainingTime = source.readInt();
         this.mAnsweredCorrectly = source.readByte() != 0;
         this.mAnsweredWrong = source.readByte() != 0;
     }
 
-    public String getText() {
+    public String getmCategory() {
+        return mCategory;
+    }
+
+    public void setmCategory(String category) {
+        this.mCategory = category;
+    }
+
+    public int getmScore() {
+        return mScore;
+    }
+
+    public void setmScore(int score) {
+        this.mScore = score;
+    }
+
+    public String getmText() {
         return mText;
     }
 
-    public void setText(String text) {
+    public void setmText(String text) {
         mText = text;
     }
 
-    public ArrayList<Answer> getmAnswerSet() {
-        return (ArrayList<Answer>) mAnswerSet;
+    public HashMap<String, Boolean> getmAnswerMap() {
+        return mAnswerMap;
     }
 
-    public void setmAnswerSet(ArrayList<Answer> mAnswerSet) {
-        this.mAnswerSet = mAnswerSet;
+    public void setmAnswerMap(HashMap<String, Boolean> mAnswerMap) {
+        this.mAnswerMap = mAnswerMap;
     }
 
-    public Answer getmAnswerTrue() {
-        return mAnswerTrue;
+    public int getmId() {
+        return mId;
     }
 
-    public void setmAnswerTrue(Answer mAnswerTrue) {
-        this.mAnswerTrue = mAnswerTrue;
-    }
-
-    public int getmNumber() {
-        return mNumber;
-    }
-
-    public void setmNumber(int number) {
-        this.mNumber = number;
+    public void setmId(int id) {
+        this.mId = id;
     }
 
     public int getmRemainingTime() {
@@ -120,9 +128,8 @@ public class Question implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mText);
-        dest.writeInt(mNumber);
-        dest.writeList(mAnswerSet);
-        dest.writeParcelable(mAnswerTrue, flags);
+        dest.writeInt(mId);
+        dest.writeMap(mAnswerMap);
         dest.writeInt(mRemainingTime);
         dest.writeByte((byte) (mAnsweredCorrectly ? 1 : 0));
         dest.writeByte((byte) (mAnsweredWrong ? 1 : 0));

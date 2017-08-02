@@ -1,10 +1,9 @@
 package com.assignment.quizapplication2;
 
+import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,28 +24,26 @@ public class CategoryFragment extends ListFragment {
 
     private DatabaseReference mDatabase;
     private List<Category> mCategoryList;
-
+    private Bundle mBundle;
 
     static interface CategoryListListener {
-        void itemClicked(long id);
+        void itemClicked(int position);
     }
 
     private CategoryListListener mListener;
 
     private void loadCategoryNames(final LayoutInflater inflater) {
-        Query queryRef = mDatabase.child("categories").orderByValue();
+        Query queryRef = mDatabase.child("categories").child("names").orderByValue();
         queryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<String> nameList = new ArrayList<String>();
-                long count = 0;
+                int position = 0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     String name = child.getValue(String.class);
-                    Log.d("name", name);
-                    Log.d("ID", String.valueOf(count));
-                    mCategoryList.add(new Category(name, count));
+                    mCategoryList.add(new Category(name, position));
                     nameList.add(name);
-                    count++;
+                    position++;
                 }
 
                 String names[] = new String[nameList.size()];
@@ -62,6 +59,14 @@ public class CategoryFragment extends ListFragment {
         });
     }
 
+    public ArrayList<Category> getmCategoryList() {
+        return (ArrayList<Category>) mCategoryList;
+    }
+
+    public Bundle getmBundle() {
+        return mBundle;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -73,6 +78,7 @@ public class CategoryFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mCategoryList = new ArrayList<Category>();
+        mBundle = new Bundle();
     }
 
     @Override
@@ -81,10 +87,12 @@ public class CategoryFragment extends ListFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        if (mListener != null)
-            mListener.itemClicked(id);
+        if (mListener != null) {
+            mBundle.putParcelableArrayList("category_list", (ArrayList<Category>) mCategoryList);
+            mBundle.putInt("clicked_position", position);
+            mListener.itemClicked(position);
+        }
     }
 }

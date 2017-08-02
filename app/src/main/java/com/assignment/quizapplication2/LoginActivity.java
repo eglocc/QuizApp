@@ -11,7 +11,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button mStartButton;
     private EditText mEditText;
-    private User mUser = new User();
+    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mEditText = (EditText) findViewById(R.id.set_nickname);
         mStartButton = (Button) findViewById(R.id.enter_nickname);
+        mUser = new User();
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,13 +6,13 @@ import android.os.Parcelable;
 public class Category implements Parcelable {
 
     private String mName;
+    private int mId;
     private Quiz mQuiz;
-    private long mId;
 
     private Category() {
     }
 
-    public Category(String name, long id) {
+    public Category(String name, int id) {
         this.mName = name;
         this.mId = id;
         this.mQuiz = new Quiz();
@@ -20,6 +20,7 @@ public class Category implements Parcelable {
 
     private Category(Parcel source) {
         mName = source.readString();
+        mId = source.readInt();
         mQuiz = source.readParcelable(Quiz.class.getClassLoader());
     }
 
@@ -29,6 +30,10 @@ public class Category implements Parcelable {
 
     public void setmName(String name) {
         this.mName = name;
+    }
+
+    public int getmId() {
+        return mId;
     }
 
     public Quiz getmQuiz() {
@@ -64,6 +69,7 @@ public class Category implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mName);
+        dest.writeInt(mId);
         dest.writeParcelable(mQuiz, flags);
     }
 }
