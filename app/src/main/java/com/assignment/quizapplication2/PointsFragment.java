@@ -16,7 +16,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PointsFragment extends Fragment {
@@ -25,21 +24,25 @@ public class PointsFragment extends Fragment {
     private List<Category> mCategoryList;
     private Category mCurrentCategory;
     private User mUser;
+    private List<Question> mQuestions;
 
-    public Quiz loadQuiz() {
+    public void loadQuiz() {
         Query query = mDatabase.child("questions").orderByChild("mCategory").equalTo(mCurrentCategory.toString());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Question> questions = mCurrentCategory.getmQuiz().getMyQuestionBank();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    Question question = child.getValue(Question.class);
-                    Log.d("question", question.getmText());
+                    Question q = child.getValue(Question.class);
+                    mQuestions.add(q);
+                    Log.d("ID", String.valueOf(q.getmId()));
+                    //Question question = child.getValue(Question.class);
+
+                    /*Log.d("question", question.getmText());
                     Log.d("question_category", question.getmCategory());
                     Log.d("questions", String.valueOf(questions.size()));
                     questions.add(question);
                     Log.d("questions", String.valueOf(questions.size()));
-                    Log.d("user", mUser.getmNickname());
+                    Log.d("user", mUser.getmNickname());*/
                 }
             }
 
@@ -48,8 +51,6 @@ public class PointsFragment extends Fragment {
 
             }
         });
-
-        return null;
     }
 
     @Override
@@ -62,6 +63,7 @@ public class PointsFragment extends Fragment {
         mCategoryList = b.getParcelableArrayList("category_list");
         int clickedPosition = b.getInt("clicked_position");
         mCurrentCategory = mCategoryList.get(clickedPosition);
+        mQuestions = mCurrentCategory.getmQuiz().getMyQuestionBank();
     }
 
     @Nullable
@@ -74,5 +76,6 @@ public class PointsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         loadQuiz();
+        Log.d("questions", mQuestions.toString());
     }
 }

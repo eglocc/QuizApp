@@ -2,10 +2,11 @@ package com.assignment.quizapplication2;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 
-public class Question implements Parcelable {
+public class Question implements Parcelable, Comparable {
 
     static final int mTimeLimit = 15;
     static final int mNumberOfAnswers = 4;
@@ -133,5 +134,14 @@ public class Question implements Parcelable {
         dest.writeInt(mRemainingTime);
         dest.writeByte((byte) (mAnsweredCorrectly ? 1 : 0));
         dest.writeByte((byte) (mAnsweredWrong ? 1 : 0));
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        Question q = (Question) o;
+        if (this.mId == q.mId)
+            return 0;
+        else
+            return this.mId > q.mId ? 1 : -1;
     }
 }

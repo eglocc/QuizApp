@@ -37,17 +37,15 @@ public class CategoryFragment extends ListFragment {
         queryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                List<String> nameList = new ArrayList<String>();
+                String names[] = new String[(int) dataSnapshot.getChildrenCount()];
                 int position = 0;
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     String name = child.getValue(String.class);
                     mCategoryList.add(new Category(name, position));
-                    nameList.add(name);
+                    names[position] = name;
                     position++;
                 }
 
-                String names[] = new String[nameList.size()];
-                names = nameList.toArray(names);
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1, names);
                 setListAdapter(adapter);
             }
