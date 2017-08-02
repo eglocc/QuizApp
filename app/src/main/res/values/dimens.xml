@@ -5,5 +5,8 @@
     <dimen name="question_text_size">22sp</dimen>
     <dimen name="button_text_size">16sp</dimen>
     <dimen name="end_info_text_size">24sp</dimen>
-    <dimen name="text_margin">16dp</dimen>
+    <dimen name="margin_x_for_points">20dp</dimen>
+    <dimen name="margin_y_for_points">40dp</dimen>
+    <dimen name="space_between_buttons_horizontally">15dp</dimen>
+    <dimen name="space_between_buttons_vertically">25dp</dimen>
 </resources>
