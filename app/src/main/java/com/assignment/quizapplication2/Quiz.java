@@ -3,31 +3,32 @@ package com.assignment.quizapplication2;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Quiz implements Parcelable {
 
-    private CopyOnWriteArrayList<Question> myQuestionBank;
+    private List<Question> myQuestionBank;
     private boolean mQuizRunning;
     private int mCurrentIndex;
 
     public Quiz() {
-        myQuestionBank = new CopyOnWriteArrayList<>();
+        myQuestionBank = new ArrayList<>();
         mCurrentIndex = 0;
     }
 
     private Quiz(Parcel source) {
-        myQuestionBank = new CopyOnWriteArrayList<>();
+        myQuestionBank = new ArrayList<>();
         source.readList(myQuestionBank, Question.class.getClassLoader());
         this.mQuizRunning = source.readByte() != 0;
         this.mCurrentIndex = source.readInt();
     }
 
-    public CopyOnWriteArrayList<Question> getMyQuestionBank() {
-        return myQuestionBank;
+    public ArrayList<Question> getMyQuestionBank() {
+        return (ArrayList<Question>) myQuestionBank;
     }
 
-    public void setMyQuestionBank(CopyOnWriteArrayList<Question> questionBank) {
+    public void setMyQuestionBank(ArrayList<Question> questionBank) {
         this.myQuestionBank = questionBank;
     }
 

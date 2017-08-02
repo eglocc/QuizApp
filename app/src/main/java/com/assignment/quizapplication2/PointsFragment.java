@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.GridView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,54 +19,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PointsFragment extends Fragment {
 
-
     static interface ScoreListListener {
         void itemClicked(int position);
-    }
-
-    private class ButtonAdapter extends BaseAdapter {
-
-        private Context mContext;
-
-        public ButtonAdapter(Context c) {
-            this.mContext = c;
-        }
-
-        @Override
-        public int getCount() {
-            return mQuestions.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return mQuestions.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            final Question question = mQuestions.get(position);
-            String score = String.valueOf(question.getmScore());
-            if (convertView == null) {
-                final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-                convertView = layoutInflater.inflate(R.layout.grid_item, null);
-            }
-
-            final Button button = (Button) convertView.findViewById(R.id.score_button);
-            Log.d("score", score);
-            button.setText(score);
-
-            return convertView;
-        }
     }
 
     private Context mContext;
@@ -77,7 +34,7 @@ public class PointsFragment extends Fragment {
     private List<Category> mCategoryList;
     private Category mCurrentCategory;
     private User mUser;
-    private CopyOnWriteArrayList<Question> mQuestions;
+    private ArrayList<Question> mQuestions;
     private GridView mGridView;
 
     public void loadQuiz() {
@@ -104,7 +61,7 @@ public class PointsFragment extends Fragment {
                     Log.d("ID_sorted", String.valueOf(q.getmId()));
                 }
 
-                mGridView.setAdapter(new ButtonAdapter(mContext));
+                mGridView.setAdapter(new ButtonAdapter(mContext, mQuestions));
                 mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
