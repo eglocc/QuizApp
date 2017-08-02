@@ -9,13 +9,15 @@ public class CategoryActivity extends AppCompatActivity implements CategoryFragm
 
     private User mUser;
     private CategoryFragment mCategoryFragment;
+    private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-        mUser = getIntent().getExtras().getParcelable("user");
+        mBundle = getIntent().getExtras();
+        mUser = mBundle.getParcelable(LoginActivity.USER);
 
         mCategoryFragment = (CategoryFragment) getFragmentManager().findFragmentById(R.id.list_category_fragment);
     }
@@ -23,11 +25,12 @@ public class CategoryActivity extends AppCompatActivity implements CategoryFragm
     @Override
     public void itemClicked(int position) {
         Bundle bundle = mCategoryFragment.getmBundle();
-        bundle.putParcelable("user", mUser);
+        mBundle.putAll(bundle);
+        //bundle.putParcelable(LoginActivity.USER, mUser);
         View fragmentContainer = findViewById(R.id.fragment_container);
         if (fragmentContainer == null) {
             Intent intent = new Intent(this, PointsActivity.class);
-            intent.putExtras(bundle);
+            intent.putExtras(mBundle);
             startActivity(intent);
         }
     }

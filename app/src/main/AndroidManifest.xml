@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CategoryActivity" />
-        <activity android:name=".PointsActivity"></activity>
+        <activity android:name=".PointsActivity" />
+        <activity android:name=".QuestionActivity"></activity>
     </application>
 
 </manifest>

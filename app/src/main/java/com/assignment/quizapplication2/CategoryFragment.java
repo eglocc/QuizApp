@@ -22,6 +22,9 @@ import java.util.List;
 
 public class CategoryFragment extends ListFragment {
 
+    public static final String CATEGORY_LIST = "category_list";
+    public static final String CLICKED_CATEGORY_POSITION = "clicked_category_position";
+
     private DatabaseReference mDatabase;
     private List<Category> mCategoryList;
     private Bundle mBundle;
@@ -88,8 +91,8 @@ public class CategoryFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         if (mListener != null) {
-            mBundle.putParcelableArrayList("category_list", (ArrayList<Category>) mCategoryList);
-            mBundle.putInt("clicked_position", position);
+            mBundle.putParcelableArrayList(CATEGORY_LIST, (ArrayList<Category>) mCategoryList);
+            mBundle.putInt(CLICKED_CATEGORY_POSITION, position);
             mListener.itemClicked(position);
         }
     }

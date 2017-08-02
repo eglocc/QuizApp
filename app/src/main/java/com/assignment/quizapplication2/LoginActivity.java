@@ -9,6 +9,8 @@ import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String USER = "user";
+
     private Button mStartButton;
     private EditText mEditText;
     private User mUser;
@@ -27,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mUser.setmNickname(String.valueOf(mEditText.getText()));
                 Intent intent = new Intent(LoginActivity.this, CategoryActivity.class);
-                intent.putExtra("user", mUser);
+                intent.putExtra(USER, mUser);
                 startActivity(intent);
             }
         });

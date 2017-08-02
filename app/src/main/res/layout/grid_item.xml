@@ -3,5 +3,5 @@
     android:id="@+id/score_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/points_button"
+    android:background="@drawable/view_with_border"
     android:text="" />

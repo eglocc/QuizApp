@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +19,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PointsFragment extends Fragment {
@@ -28,7 +28,10 @@ public class PointsFragment extends Fragment {
         void itemClicked(int position);
     }
 
+    public static final String CURRENT_CATEGORY = "current_category";
+
     private Context mContext;
+    private Bundle mBundle;
     private DatabaseReference mDatabase;
     private ScoreListListener mListener;
     private List<Category> mCategoryList;
@@ -36,6 +39,10 @@ public class PointsFragment extends Fragment {
     private User mUser;
     private ArrayList<Question> mQuestions;
     private GridView mGridView;
+
+    public Bundle getmBundle() {
+        return mBundle;
+    }
 
     public void loadQuiz() {
         Query query = mDatabase.child("questions").orderByChild("mCategory").equalTo(mCurrentCategory.toString());
@@ -56,19 +63,8 @@ public class PointsFragment extends Fragment {
                     Log.d("user", mUser.getmNickname());*/
                 }
 
-                //Collections.sort(mQuestions);
-                for (Question q : mQuestions) {
-                    Log.d("ID_sorted", String.valueOf(q.getmId()));
-                }
-
-                mGridView.setAdapter(new ButtonAdapter(mContext, mQuestions));
-                mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        if (mListener != null)
-                            mListener.itemClicked(position);
-                    }
-                });
+                Collections.sort(mQuestions);
+                mGridView.setAdapter(new ButtonAdapter(mContext, mQuestions, mListener, mBundle));
             }
 
             @Override
@@ -89,13 +85,16 @@ public class PointsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        Intent intent = getActivity().getIntent();
-        Bundle b = intent.getExtras();
-        mUser = b.getParcelable("user");
-        mCategoryList = b.getParcelableArrayList("category_list");
-        int clickedPosition = b.getInt("clicked_position");
-        mCurrentCategory = mCategoryList.get(clickedPosition);
-        mQuestions = mCurrentCategory.getmQuiz().getMyQuestionBank();
+        if (mContext instanceof PointsActivity) {
+            Intent intent = getActivity().getIntent();
+            mBundle = intent.getExtras();
+            mUser = mBundle.getParcelable(LoginActivity.USER);
+            mCategoryList = mBundle.getParcelableArrayList(CategoryFragment.CATEGORY_LIST);
+            int clickedPosition = mBundle.getInt(CategoryFragment.CLICKED_CATEGORY_POSITION);
+            mCurrentCategory = mCategoryList.get(clickedPosition);
+            mQuestions = mCurrentCategory.getmQuiz().getMyQuestionBank();
+            mBundle.putParcelable(CURRENT_CATEGORY, mCurrentCategory);
+        }
     }
 
     @Nullable

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">QuizApplication 2</string>
-    <string name="remaining_time">Remaining Time: </string>
+    <string name="remaining_time">Remaining Time</string>
     <string name="nickname">Nickname: </string>
     <string name="score">Score: </string>
     <string name="total_time">Total Time: </string>
@@ -10,4 +10,5 @@
     <string name="enter_nickname">Enter Nıckname</string>
     <string name="hint_nickname">Your nickname</string>
     <string name="start">Start</string>
+    <string name="question">Question</string>
 </resources>

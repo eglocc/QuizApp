@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:layout_margin="@dimen/space_between_views"
+        android:layout_gravity="left">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nickname"
+            android:textSize="@dimen/info_text_size"
+            android:fontFamily="sans-serif-medium" />
+
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/space_between_views"
+            android:textSize="@dimen/info_text_size"
+            android:fontFamily="sans-serif-medium" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2">
+
+            <TextView
+                android:id="@+id/score_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score"
+                android:textSize="@dimen/info_text_size"
+                android:fontFamily="sans-serif-medium" />
+
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/space_between_views"
+                android:textSize="@dimen/info_text_size"
+                android:fontFamily="sans-serif-medium"
+                android:layout_toRightOf="@id/score_label" />
+
+        </RelativeLayout>
+
+    </GridLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/question"
+        android:textSize="@dimen/info_text_size"
+        android:fontFamily="sans-serif-medium"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/question_text_size"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/question_padding"
+        android:layout_margin="@dimen/space_between_views"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif-medium"
+        android:background="@drawable/view_with_border" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:layout_margin="@dimen/space_between_views" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:layout_margin="@dimen/space_between_views" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:layout_margin="@dimen/space_between_views" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:layout_margin="@dimen/space_between_views" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/remaining_time"
+        android:textSize="@dimen/info_text_size"
+        android:fontFamily="sans-serif-medium"
+        android:layout_marginTop="@dimen/space_between_views"
+        android:layout_marginBottom="@dimen/space_between_views_half" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/view_with_border"
+        android:padding="@dimen/time_padding"
+        android:layout_margin="@dimen/space_between_views_half" />
+
+</LinearLayout>

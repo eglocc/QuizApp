@@ -1,12 +1,13 @@
 <resources>
     <dimen name="space_between_views">8dp</dimen>
+    <dimen name="space_between_views_half">4dp</dimen>
     <dimen name="info_text_size">16sp</dimen>
     <dimen name="question_padding">24dp</dimen>
+    <dimen name="time_padding">18dp</dimen>
     <dimen name="question_text_size">22sp</dimen>
     <dimen name="button_text_size">16sp</dimen>
     <dimen name="end_info_text_size">24sp</dimen>
     <dimen name="margin_x_for_points">20dp</dimen>
     <dimen name="margin_y_for_points">40dp</dimen>
-    <dimen name="space_between_buttons_horizontally">15dp</dimen>
-    <dimen name="space_between_buttons_vertically">25dp</dimen>
+    <dimen name="rounded_button_radiues">1000dp</dimen>
 </resources>
