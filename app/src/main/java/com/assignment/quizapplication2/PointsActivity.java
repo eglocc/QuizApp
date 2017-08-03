@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-public class PointsActivity extends AppCompatActivity implements PointsFragment.ScoreListListener {
+public class PointsActivity extends AppCompatActivity implements FragmentListener {
 
     public static final String CLICKED_QUESTION_POSITION = "clicked_question_position";
     public static final String SELECTED_QUESTION = "selected_question";

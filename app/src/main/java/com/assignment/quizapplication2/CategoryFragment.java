@@ -22,12 +22,7 @@ import static com.assignment.quizapplication2.Category.mCategoryList;
 public class CategoryFragment extends ListFragment {
 
     private DatabaseReference mDatabase;
-
-    static interface CategoryListListener {
-        void itemClicked(int position);
-    }
-
-    private CategoryListListener mListener;
+    private FragmentListener mListener;
 
     private void loadCategoryNames(final LayoutInflater inflater) {
         Query queryRef = mDatabase.child("categories").orderByChild("mCategoryName");
@@ -56,7 +51,7 @@ public class CategoryFragment extends ListFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.mListener = (CategoryListListener) context;
+        this.mListener = (FragmentListener) context;
     }
 
     @Override

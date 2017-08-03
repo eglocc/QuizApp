@@ -10,13 +10,13 @@ import android.widget.Button;
 
 import java.util.List;
 
-public class ButtonAdapter extends BaseAdapter {
+public class PointButtonAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<Question> mQuestionList;
-    private PointsFragment.ScoreListListener mScoreListListener;
+    private FragmentListener mScoreListListener;
 
-    public ButtonAdapter(Context c, List<Question> list, PointsFragment.ScoreListListener listListener) {
+    public PointButtonAdapter(Context c, List<Question> list, FragmentListener listListener) {
         this.mContext = c;
         this.mQuestionList = list;
         this.mScoreListListener = listListener;

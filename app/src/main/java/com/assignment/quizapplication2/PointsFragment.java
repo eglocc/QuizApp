@@ -15,13 +15,9 @@ import java.util.ArrayList;
 
 public class PointsFragment extends Fragment {
 
-    static interface ScoreListListener {
-        void itemClicked(int position);
-    }
-
     private Context mContext;
     private DatabaseReference mDatabase;
-    private ScoreListListener mListener;
+    private FragmentListener mListener;
     private GridView mGridView;
 
     private int mCategoryId;
@@ -34,7 +30,7 @@ public class PointsFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = context;
-        this.mListener = (ScoreListListener) context;
+        this.mListener = (FragmentListener) mContext;
     }
 
     @Nullable
@@ -49,7 +45,6 @@ public class PointsFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ArrayList<Question> questions = Category.mCategoryList.get(mCategoryId).getmQuestionList();
-        ButtonAdapter buttonAdapter = new ButtonAdapter(mContext, questions, mListener);
-        mGridView.setAdapter(buttonAdapter);
+        mGridView.setAdapter(new PointButtonAdapter(mContext, questions, mListener));
     }
 }

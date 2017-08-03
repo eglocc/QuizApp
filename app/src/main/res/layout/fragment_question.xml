@@ -72,37 +72,14 @@
         android:fontFamily="sans-serif-medium"
         android:background="@drawable/view_with_border" />
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ListView
+        android:id="@+id/answer_list_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left">
+        android:layout_gravity="left"
+        android:layout_margin="@dimen/space_between_views">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:layout_margin="@dimen/space_between_views" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:layout_margin="@dimen/space_between_views" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:layout_margin="@dimen/space_between_views" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:layout_margin="@dimen/space_between_views" />
-
-    </LinearLayout>
+    </ListView>
 
     <TextView
         android:layout_width="wrap_content"

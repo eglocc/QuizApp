@@ -1,5 +1,6 @@
 package com.assignment.quizapplication2;
 
+import android.content.Context;
 import android.os.Handler;
 import android.widget.TextView;
 
@@ -8,13 +9,16 @@ public class Timer implements Runnable {
     private int mSeconds;
     private boolean mRunning;
     private boolean mRanOutOfTime;
+
+    private Context mContext;
     private TextView mTimeView;
     private Handler mHandler;
     private Question mQuestion;
     private User mUser;
 
-    public Timer(User user, Question question, TextView tv, Handler handler) {
+    public Timer(Context c, User user, Question question, TextView tv, Handler handler) {
         this.mSeconds = question.getmRemainingTime();
+        this.mContext = c;
         this.mUser = user;
         this.mQuestion = question;
         this.mHandler = handler;
