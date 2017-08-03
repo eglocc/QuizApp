@@ -61,6 +61,7 @@
         android:layout_gravity="center_horizontal" />
 
     <TextView
+        android:id="@+id/question_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/question_text_size"
@@ -114,6 +115,7 @@
         android:layout_marginBottom="@dimen/space_between_views_half" />
 
     <TextView
+        android:id="@+id/remaining_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

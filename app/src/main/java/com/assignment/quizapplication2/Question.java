@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Question implements Parcelable, Comparable {
 
@@ -13,7 +14,7 @@ public class Question implements Parcelable, Comparable {
 
     private String mCategory;
     private String mText;
-    private int mId;
+    private int mQuestionId;
     private int mScore;
     private HashMap<String, Boolean> mAnswerMap;
     private int mRemainingTime;
@@ -33,12 +34,18 @@ public class Question implements Parcelable, Comparable {
 
     private Question(Parcel source) {
         this.mText = source.readString();
-        this.mId = source.readInt();
+        this.mQuestionId = source.readInt();
         this.mCategory = source.readString();
-        this.mAnswerMap = source.readHashMap(null);
         this.mRemainingTime = source.readInt();
         this.mAnsweredCorrectly = source.readByte() != 0;
         this.mAnsweredWrong = source.readByte() != 0;
+        final int size = source.readInt();
+        mAnswerMap = new HashMap<>(size);
+        for (int i = 0; i < size; i++) {
+            final String key = source.readString();
+            final boolean value = source.readByte() != 0;
+            mAnswerMap.put(key, value);
+        }
     }
 
     public String getmCategory() {
@@ -73,12 +80,12 @@ public class Question implements Parcelable, Comparable {
         this.mAnswerMap = mAnswerMap;
     }
 
-    public int getmId() {
-        return mId;
+    public int getmQuestionId() {
+        return mQuestionId;
     }
 
     public void setmId(int id) {
-        this.mId = id;
+        this.mQuestionId = id;
     }
 
     public int getmRemainingTime() {
@@ -129,19 +136,23 @@ public class Question implements Parcelable, Comparable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mText);
-        dest.writeInt(mId);
-        dest.writeMap(mAnswerMap);
+        dest.writeInt(mQuestionId);
         dest.writeInt(mRemainingTime);
         dest.writeByte((byte) (mAnsweredCorrectly ? 1 : 0));
         dest.writeByte((byte) (mAnsweredWrong ? 1 : 0));
+        dest.writeInt(mAnswerMap.size());
+        for (Map.Entry<String, Boolean> entry : mAnswerMap.entrySet()) {
+            dest.writeString(entry.getKey());
+            dest.writeByte((byte) (entry.getValue() ? 1 : 0));
+        }
     }
 
     @Override
     public int compareTo(@NonNull Object o) {
         Question q = (Question) o;
-        if (this.mId == q.mId)
+        if (this.mQuestionId == q.mQuestionId)
             return 0;
         else
-            return this.mId > q.mId ? 1 : -1;
+            return this.mQuestionId > q.mQuestionId ? 1 : -1;
     }
 }

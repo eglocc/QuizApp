@@ -17,7 +17,6 @@ public class CategoryActivity extends AppCompatActivity implements CategoryFragm
         setContentView(R.layout.activity_category);
 
         mBundle = getIntent().getExtras();
-        mUser = mBundle.getParcelable(LoginActivity.USER);
 
         mCategoryFragment = (CategoryFragment) getFragmentManager().findFragmentById(R.id.list_category_fragment);
     }

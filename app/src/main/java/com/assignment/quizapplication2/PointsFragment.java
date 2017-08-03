@@ -2,10 +2,8 @@ package com.assignment.quizapplication2;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class PointsFragment extends Fragment {
 
@@ -29,22 +26,23 @@ public class PointsFragment extends Fragment {
     }
 
     public static final String CURRENT_CATEGORY = "current_category";
+    public static final String QUESTION_LIST = "question_list";
+    public static final String CLICKED_QUESTION_POSITION = "clicked_question_position";
 
     private Context mContext;
-    private Bundle mBundle;
     private DatabaseReference mDatabase;
     private ScoreListListener mListener;
-    private List<Category> mCategoryList;
-    private Category mCurrentCategory;
-    private User mUser;
-    private ArrayList<Question> mQuestions;
     private GridView mGridView;
 
-    public Bundle getmBundle() {
-        return mBundle;
+    private Category mCurrentCategory;
+    private ArrayList<Question> mQuestions;
+
+    public void setmCurrentCategory(Category c) {
+        mCurrentCategory = c;
     }
 
     public void loadQuiz() {
+        mQuestions = mCurrentCategory.getmQuiz().getMyQuestionBank();
         Query query = mDatabase.child("questions").orderByChild("mCategory").equalTo(mCurrentCategory.toString());
         query.addValueEventListener(new ValueEventListener() {
             @Override
@@ -52,19 +50,10 @@ public class PointsFragment extends Fragment {
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Question q = child.getValue(Question.class);
                     mQuestions.add(q);
-                    Log.d("ID", String.valueOf(q.getmId()));
-                    //Question question = child.getValue(Question.class);
-
-                    /*Log.d("question", question.getmText());
-                    Log.d("question_category", question.getmCategory());
-                    Log.d("questions", String.valueOf(questions.size()));
-                    questions.add(question);
-                    Log.d("questions", String.valueOf(questions.size()));
-                    Log.d("user", mUser.getmNickname());*/
                 }
 
                 Collections.sort(mQuestions);
-                mGridView.setAdapter(new ButtonAdapter(mContext, mQuestions, mListener, mBundle));
+                mGridView.setAdapter(new ButtonAdapter(mContext, mQuestions, mListener));
             }
 
             @Override
@@ -85,16 +74,6 @@ public class PointsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        if (mContext instanceof PointsActivity) {
-            Intent intent = getActivity().getIntent();
-            mBundle = intent.getExtras();
-            mUser = mBundle.getParcelable(LoginActivity.USER);
-            mCategoryList = mBundle.getParcelableArrayList(CategoryFragment.CATEGORY_LIST);
-            int clickedPosition = mBundle.getInt(CategoryFragment.CLICKED_CATEGORY_POSITION);
-            mCurrentCategory = mCategoryList.get(clickedPosition);
-            mQuestions = mCurrentCategory.getmQuiz().getMyQuestionBank();
-            mBundle.putParcelable(CURRENT_CATEGORY, mCurrentCategory);
-        }
     }
 
     @Nullable
