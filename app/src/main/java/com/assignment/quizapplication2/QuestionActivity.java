@@ -2,7 +2,6 @@ package com.assignment.quizapplication2;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 public class QuestionActivity extends AppCompatActivity {
 
@@ -16,7 +15,6 @@ public class QuestionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("act_oncreate", "I was here");
         setContentView(R.layout.activity_question);
 
         mUser = new User();
