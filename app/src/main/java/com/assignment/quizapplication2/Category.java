@@ -1,75 +1,42 @@
 package com.assignment.quizapplication2;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.util.ArrayList;
 
-public class Category implements Parcelable {
+public class Category {
 
-    private String mName;
-    private int mCategoryId;
-    private Quiz mQuiz;
+    static ArrayList<Category> mCategoryList = new ArrayList<>();
+
+    private String mCategoryName;
+    private ArrayList<Question> mQuestionList;
 
     private Category() {
     }
 
-    public Category(String name, int id) {
-        this.mName = name;
-        this.mCategoryId = id;
-        this.mQuiz = new Quiz();
+    ;
+
+    public Category(String name, ArrayList<Question> questionList) {
+        this.mCategoryName = name;
+        this.mQuestionList = questionList;
     }
 
-    private Category(Parcel source) {
-        mName = source.readString();
-        mCategoryId = source.readInt();
-        mQuiz = source.readParcelable(Quiz.class.getClassLoader());
+    public String getmCategoryName() {
+        return mCategoryName;
     }
 
-    public String getmName() {
-        return mName;
+    public void setmCategoryName(String mCategoryName) {
+        this.mCategoryName = mCategoryName;
     }
 
-    public void setmName(String name) {
-        this.mName = name;
+    public ArrayList<Question> getmQuestionList() {
+        return mQuestionList;
     }
 
-    public int getmCategoryId() {
-        return mCategoryId;
-    }
-
-    public Quiz getmQuiz() {
-        return mQuiz;
-    }
-
-    public void setmQuiz(Quiz quiz) {
-        this.mQuiz = quiz;
+    public void setmQuestionList(ArrayList<Question> mQuestionList) {
+        this.mQuestionList = mQuestionList;
     }
 
     @Override
     public String toString() {
-        return mName;
-    }
-
-    public static final Parcelable.Creator CREATOR = new Creator() {
-        @Override
-        public Object createFromParcel(Parcel source) {
-            return new Category(source);
-        }
-
-        @Override
-        public Object[] newArray(int size) {
-            return new Object[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mName);
-        dest.writeInt(mCategoryId);
-        dest.writeParcelable(mQuiz, flags);
+        return mCategoryName;
     }
 }

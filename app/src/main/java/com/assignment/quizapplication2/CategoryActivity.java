@@ -7,7 +7,8 @@ import android.view.View;
 
 public class CategoryActivity extends AppCompatActivity implements CategoryFragment.CategoryListListener {
 
-    private User mUser;
+    public static final String CLICKED_CATEGORY_POSITION = "clicked_category_position";
+
     private CategoryFragment mCategoryFragment;
     private Bundle mBundle;
 
@@ -23,12 +24,10 @@ public class CategoryActivity extends AppCompatActivity implements CategoryFragm
 
     @Override
     public void itemClicked(int position) {
-        Bundle bundle = mCategoryFragment.getmBundle();
-        mBundle.putAll(bundle);
-        //bundle.putParcelable(LoginActivity.USER, mUser);
         View fragmentContainer = findViewById(R.id.fragment_container);
         if (fragmentContainer == null) {
             Intent intent = new Intent(this, PointsActivity.class);
+            mBundle.putInt(CLICKED_CATEGORY_POSITION, position);
             intent.putExtras(mBundle);
             startActivity(intent);
         }

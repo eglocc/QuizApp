@@ -2,8 +2,9 @@
     <dimen name="space_between_views">8dp</dimen>
     <dimen name="space_between_views_half">4dp</dimen>
     <dimen name="info_text_size">16sp</dimen>
-    <dimen name="question_padding">24dp</dimen>
-    <dimen name="time_padding">18dp</dimen>
+    <dimen name="question_padding">8dp</dimen>
+    <dimen name="time_padding_vertical">12dp</dimen>
+    <dimen name="time_padding_horizontal">50dp</dimen>
     <dimen name="question_text_size">22sp</dimen>
     <dimen name="button_text_size">16sp</dimen>
     <dimen name="end_info_text_size">24sp</dimen>

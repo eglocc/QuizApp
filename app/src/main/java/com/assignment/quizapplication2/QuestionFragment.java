@@ -8,9 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.widget.TextView;
 
 public class QuestionFragment extends Fragment {
 
@@ -18,67 +16,47 @@ public class QuestionFragment extends Fragment {
         void answerClicked(long id);
     }
 
-    private List<Question> mQuestions;
-    private int mQuestionId;
     private Context mContext;
-    private Bundle mBundle;
+    private Question mSelectedQuestion;
     private User mUser;
 
-
-    public void displayBundleOnLog() {
-        for (String s : mBundle.keySet()) {
-            switch (s) {
-                case LoginActivity.USER:
-                    Log.d(s, ((User) mBundle.get(s)).getmNickname());
-                    break;
-                case CategoryFragment.CATEGORY_LIST:
-                    List<Category> categoryList = (ArrayList<Category>) mBundle.get(s);
-                    Log.d(s, categoryList.toString());
-                    break;
-                case PointsFragment.QUESTION_LIST:
-                    List<Question> questionList = (ArrayList<Question>) mBundle.get(s);
-                    for (Question q : questionList) {
-                        Log.d("Question_" + String.valueOf(q.getmQuestionId()), q.getmText());
-                    }
-                    break;
-                default:
-                    Log.d(s, mBundle.get(s).toString());
-            }
-        }
+    public void setmSelectedQuestion(Question question) {
+        mSelectedQuestion = question;
     }
 
-    public void setmQuestionId(int id) {
-        this.mQuestionId = id;
-    }
-
-    public void setmQuestions(List<Question> questions) {
-        this.mQuestions = questions;
+    public void setmUser(User user) {
+        mUser = user;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        Log.d("fr_onattach", "I was here");
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("fr_oncrview", "I was here");
         return inflater.inflate(R.layout.fragment_question, container, false);
     }
 
-    /*@Override
+    @Override
     public void onStart() {
         super.onStart();
+        Log.d("fr_onstart", "I was here");
         View view = getView();
-        TextView nickname = (TextView) view.findViewById(R.id.nickname);
-        TextView score = (TextView) view.findViewById(R.id.score);
-        TextView question = (TextView) view.findViewById(R.id.question_text);
-        TextView remainingTime = (TextView) view.findViewById(R.id.remaining_time);
-        Question q = mQuestions.get(mQuestionId);
-        //nickname.setText(mUser.getmNickname());
-        //score.setText(String.valueOf(mUser.getmScore()));
-        question.setText(q.getmText());
-        remainingTime.setText(String.valueOf(q.getmRemainingTime()));
-    }*/
+        if (view != null) {
+            TextView nickname = (TextView) view.findViewById(R.id.nickname);
+            TextView score = (TextView) view.findViewById(R.id.score);
+            TextView question = (TextView) view.findViewById(R.id.question_text);
+            TextView remainingTime = (TextView) view.findViewById(R.id.remaining_time);
+            nickname.setText(mUser.getmNickname());
+            score.setText(String.valueOf(mUser.getmScore()));
+            question.setText(mSelectedQuestion.getmText());
+            //String time = String.format("00:%02d",mSelectedQuestion.getmRemainingTime());
+            //remainingTime.setText(time);
+        }
+    }
 }

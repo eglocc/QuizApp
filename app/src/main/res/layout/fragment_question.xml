@@ -120,7 +120,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/view_with_border"
-        android:padding="@dimen/time_padding"
+        android:paddingTop="@dimen/time_padding_vertical"
+        android:paddingBottom="@dimen/time_padding_vertical"
+        android:paddingLeft="@dimen/time_padding_horizontal"
+        android:paddingRight="@dimen/time_padding_horizontal"
         android:layout_margin="@dimen/space_between_views_half" />
 
 </LinearLayout>

@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final String USER = "user";
+    public static final String NICKNAME = "nickname";
 
     private Button mStartButton;
     private EditText mEditText;
@@ -22,17 +22,17 @@ public class LoginActivity extends AppCompatActivity {
 
         mEditText = (EditText) findViewById(R.id.set_nickname);
         mStartButton = (Button) findViewById(R.id.enter_nickname);
-        mUser = new User();
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mUser.setmNickname(String.valueOf(mEditText.getText()));
+                String nickname = mEditText.getText().toString();
                 Intent intent = new Intent(LoginActivity.this, CategoryActivity.class);
-                intent.putExtra(USER, mUser);
+                intent.putExtra(NICKNAME, nickname);
                 startActivity(intent);
             }
         });
+
 
         if (savedInstanceState != null) {
             String text = savedInstanceState.getString("text");

@@ -1,6 +1,7 @@
 package com.assignment.quizapplication2;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,7 @@ public class ButtonAdapter extends BaseAdapter {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.grid_item, null);
         }
-
+        Log.d("question", question.getmText());
         final Button button = (Button) convertView.findViewById(R.id.score_button);
         button.setText(score);
         button.setOnClickListener(new View.OnClickListener() {
