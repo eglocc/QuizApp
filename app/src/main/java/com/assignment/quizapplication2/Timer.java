@@ -4,11 +4,6 @@ public abstract class Timer implements Runnable {
 
     private int mSeconds;
     private boolean mRunning;
-    private boolean mRanOutOfTime;
-
-    public Timer(int seconds) {
-        this.mSeconds = seconds;
-    }
 
     final public int getmSeconds() {
         return mSeconds;

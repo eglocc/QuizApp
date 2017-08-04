@@ -6,50 +6,15 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity implements QuestionFragment.AnswerListener {
 
-    private class ActivityTimer extends Timer {
-
-        private boolean mRanOutOfTime;
-
-        public ActivityTimer(int seconds) {
-            super(seconds);
-        }
-
-        @Override
-        public void run() {
-            int seconds = getmSeconds();
-            boolean running = getmRunning();
-            String time = String.format("00:%02d", seconds);
-            mRemainingTimeView.setText(time);
-            if (running && seconds > 0) {
-                Log.d("sec", String.valueOf(seconds));
-                decrementmSeconds();
-                mQuestion.decrementmRemainingTime();
-            } else if (seconds <= 0) {
-                mRanOutOfTime = true;
-                setmRunning(false);
-                msUser.answeredWrong(mQuestion.getmScore());
-                mRemainingTimeView.setBackground(getDrawable(R.drawable.score_button_red));
-                mRemainingTimeView.setText(getResources().getString(R.string.times_up));
-                ListView answerList = (ListView) findViewById(R.id.answer_list_view);
-                Button button = (Button) answerList.findViewWithTag("true_answer");
-                button.setBackground(getDrawable(R.drawable.rounded_button_green));
-            }
-            if (!mRanOutOfTime)
-                msHandler.postDelayed(this, 1000);
-        }
-    }
-
     private Bundle mBundle;
     private QuestionFragment mQuestionFragment;
-    private TextView mRemainingTimeView;
+    //private TextView mRemainingTimeView;
     private Timer mTimer;
     private static Handler msHandler = new Handler();
 
@@ -73,15 +38,15 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
 
         mQuestionFragment = (QuestionFragment) getFragmentManager().findFragmentById(R.id.question_fragment);
 
-        mRemainingTimeView = (TextView) mQuestionFragment.getView().findViewById(R.id.remaining_time);
-
         mCategoryId = mBundle.getInt(CategoryActivity.CLICKED_CATEGORY_POSITION);
         mQuestionId = mBundle.getInt(PointsActivity.CLICKED_QUESTION_POSITION);
         mQuestionList = Category.mCategoryList.get(mCategoryId).getmQuestionList();
         mQuestion = mQuestionList.get(mQuestionId);
-        mTimer = new ActivityTimer(mQuestion.getmRemainingTime());
+        mTimer = mQuestionFragment.new ActivityTimer();
         mQuestionFragment.setmSelectedQuestion(mQuestion);
         mQuestionFragment.setmUser(msUser);
+        mQuestionFragment.setmTimer(mTimer);
+        mQuestionFragment.setmHandler(msHandler);
     }
 
 
@@ -95,6 +60,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         startActivity(intent);
     }
 
+    /*
     @Override
     protected void onResume() {
         super.onResume();
@@ -104,8 +70,9 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         } else {
 
         }
-    }
+    }*/
 
+    /*
     @Override
     protected void onPause() {
         super.onPause();
@@ -119,6 +86,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         mTimer.setmRunning(false);
         msHandler.removeCallbacks(mTimer);
     }
+    */
 
     @Override
     public void answerClicked(View v, String clickedAnswer, boolean answerCorrect) {
