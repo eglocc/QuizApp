@@ -70,7 +70,7 @@
         android:layout_margin="@dimen/space_between_views"
         android:textAlignment="center"
         android:fontFamily="sans-serif-medium"
-        android:background="@drawable/view_with_border" />
+        android:background="@drawable/score_button" />
 
     <ListView
         android:id="@+id/answer_list_view"
@@ -96,7 +96,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/view_with_border"
+        android:background="@drawable/score_button"
         android:paddingTop="@dimen/time_padding_vertical"
         android:paddingBottom="@dimen/time_padding_vertical"
         android:paddingLeft="@dimen/time_padding_horizontal"

@@ -80,6 +80,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
     public void answerClicked(View v, String clickedAnswer, boolean answerCorrect) {
         mQuestion.setmHasBeenAnswered(true);
         mQuestion.setmClickedAnswer(clickedAnswer);
+        Log.d("clicked_answer", clickedAnswer);
         mTimer.setmRunning(false);
         msHandler.removeCallbacks(mTimer);
 
@@ -104,8 +105,6 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
             mQuestionId = quizFinished;
             Log.d("quiz finished", String.valueOf(quizFinished));
             mBundle.putInt(PointsActivity.CLICKED_QUESTION_POSITION, mQuestionId);
-            mTimer.setmRunning(false);
-            msHandler.removeCallbacks(mTimer);
             Intent intent = new Intent(QuestionActivity.this, QuestionActivity.class);
             intent.putExtras(mBundle);
             startActivity(intent);

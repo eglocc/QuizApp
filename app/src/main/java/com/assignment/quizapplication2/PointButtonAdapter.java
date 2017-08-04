@@ -50,11 +50,11 @@ public class PointButtonAdapter extends BaseAdapter {
         button.setText(score);
 
         if (mQuestionList.get(position).getmAnsweredCorrectly())
-            button.setBackgroundColor(mContext.getResources().getColor(R.color.colorGreen, null));
+            button.setBackground(mContext.getDrawable(R.drawable.score_button_green));
         else if (mQuestionList.get(position).getmAnsweredWrong())
-            button.setBackgroundColor(mContext.getResources().getColor(R.color.colorRed, null));
+            button.setBackground(mContext.getDrawable(R.drawable.score_button_red));
         else if (mQuestionList.get(position).getmRemainingTime() <= 0)
-            button.setBackgroundColor(mContext.getResources().getColor(R.color.colorBlue, null));
+            button.setBackground(mContext.getDrawable(R.drawable.score_button_blue));
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
