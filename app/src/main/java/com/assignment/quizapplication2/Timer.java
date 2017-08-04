@@ -28,26 +28,5 @@ public abstract class Timer implements Runnable {
     public void incrementmSeconds() {
         this.mSeconds++;
     }
-
-    /*
-    @Override
-    public void run() {
-        int seconds = getmSeconds();
-        boolean running = getmRunning();
-        String time = String.format("00:%02d", seconds);
-        mTimeView.setText(time);
-        if (running && seconds > 0) {
-            decrementmSeconds();
-            mQuestion.decrementmRemainingTime();
-        } else if (seconds <= 0) {
-            mRanOutOfTime = true;
-            setmRunning(false);
-            mUser.answeredWrong(mQuestion.getmScore());
-            mTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_red));
-            mTimeView.setText(mContext.getResources().getString(R.string.times_up));
-        }
-        if (!mRanOutOfTime)
-            mHandler.postDelayed(this, 1000);
-    }*/
 }
 

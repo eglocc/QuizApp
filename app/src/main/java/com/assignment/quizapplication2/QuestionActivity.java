@@ -15,7 +15,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
 
     private Bundle mBundle;
     private QuestionFragment mQuestionFragment;
-    private Timer mTimer;
+    private QuestionTimer mTimer;
     private Handler mHandler = new Handler();
 
     private int mCategoryId;
@@ -37,9 +37,11 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         mQuestionId = mBundle.getInt(PointsActivity.CLICKED_QUESTION_POSITION);
         mQuestionList = Category.mCategoryList.get(mCategoryId).getmQuestionList();
         mQuestion = mQuestionList.get(mQuestionId);
+        mTimer = new QuestionTimer(this, mQuestion, mHandler);
 
         //Transfer important data to the fragment
-        mTimer = mQuestionFragment.new ActivityTimer();
+        mQuestionFragment.setmCategoryId(mCategoryId);
+        mQuestionFragment.setmQuestionId(mQuestionId);
         mQuestionFragment.setmSelectedQuestion(mQuestion);
         mQuestionFragment.setmTimer(mTimer);
         mQuestionFragment.setmHandler(mHandler);

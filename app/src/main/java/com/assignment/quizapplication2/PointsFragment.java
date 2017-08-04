@@ -9,15 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import com.google.firebase.database.DatabaseReference;
-
 import java.util.ArrayList;
 
 public class PointsFragment extends Fragment {
 
+    static interface QuestionListListener {
+        void questionClicked(int position);
+    }
+
     private Context mContext;
-    private DatabaseReference mDatabase;
-    private FragmentItemListener mListener;
+    private QuestionListListener mListener;
     private GridView mGridView;
 
     private int mCategoryId;
@@ -30,7 +31,7 @@ public class PointsFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = context;
-        this.mListener = (FragmentItemListener) mContext;
+        this.mListener = (QuestionListListener) mContext;
     }
 
     @Nullable

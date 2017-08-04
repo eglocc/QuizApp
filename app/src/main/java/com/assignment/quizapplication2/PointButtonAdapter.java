@@ -14,9 +14,9 @@ public class PointButtonAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<Question> mQuestionList;
-    private FragmentItemListener mScoreListListener;
+    private PointsFragment.QuestionListListener mScoreListListener;
 
-    public PointButtonAdapter(Context c, List<Question> list, FragmentItemListener listListener) {
+    public PointButtonAdapter(Context c, List<Question> list, PointsFragment.QuestionListListener listListener) {
         this.mContext = c;
         this.mQuestionList = list;
         this.mScoreListListener = listListener;
@@ -59,7 +59,7 @@ public class PointButtonAdapter extends BaseAdapter {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mScoreListListener.itemClicked(position);
+                mScoreListListener.questionClicked(position);
             }
         });
 

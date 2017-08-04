@@ -5,11 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,41 +19,9 @@ public class QuestionFragment extends Fragment {
         void answerClicked(View v, String clickedAnswer, boolean answerCorrect);
     }
 
-    public class ActivityTimer extends Timer {
-
-        @Override
-        public void run() {
-            int seconds = mSelectedQuestion.getmRemainingTime();
-            boolean running = getmRunning();
-            String time = String.format("00:%02d", seconds);
-            if (running && seconds > 0) {
-                Log.d("sec", String.valueOf(seconds));
-                mRemainingTimeView.setText(time);
-                decrementmSeconds();
-                mSelectedQuestion.decrementmRemainingTime();
-                mHandler.postDelayed(this, 1000);
-            } else if (seconds <= 0) {
-                if (!mSelectedQuestion.getmHasBeenAnswered()) {
-                    sUser.answeredWrong(mSelectedQuestion.getmScore());
-                    mScoreView.setText(String.valueOf(sUser.getmScore()));
-                }
-                mRemainingTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_red));
-                mRemainingTimeView.setText(getResources().getString(R.string.times_up));
-                ListView answerList = (ListView) getView().findViewById(R.id.answer_list_view);
-                Button button = (Button) answerList.findViewWithTag("true_answer");
-                if (button != null)
-                    button.setBackground(mContext.getDrawable(R.drawable.rounded_button_green));
-                mSelectedQuestion.setmRanOutOfTime(true);
-                mSelectedQuestion.setmHasBeenAnswered(true);
-                setmRunning(false);
-                mHandler.removeCallbacks(this);
-            }
-        }
-    }
-
     private Context mContext;
     private AnswerListener mListener;
-    private Timer mTimer;
+    private QuestionTimer mTimer;
     private Handler mHandler;
 
     private TextView mRemainingTimeView;
@@ -66,17 +32,27 @@ public class QuestionFragment extends Fragment {
     private ListView mAnswerListView;
 
     private Question mSelectedQuestion;
+    private int mCategoryId;
+    private int mQuestionId;
 
-    public void setmSelectedQuestion(Question question) {
-        mSelectedQuestion = question;
+    public void setmCategoryId(int id) {
+        mCategoryId = id;
     }
 
-    public void setmTimer(Timer timer) {
+    public void setmQuestionId(int id) {
+        mQuestionId = id;
+    }
+
+    public void setmTimer(QuestionTimer timer) {
         mTimer = timer;
     }
 
     public void setmHandler(Handler handler) {
         mHandler = handler;
+    }
+
+    public void setmSelectedQuestion(Question question) {
+        mSelectedQuestion = question;
     }
 
     @Override
@@ -106,6 +82,10 @@ public class QuestionFragment extends Fragment {
             mQuestionTextView = (TextView) view.findViewById(R.id.question_text);
             mAnswerListView = (ListView) view.findViewById(R.id.answer_list_view);
 
+            mTimer.setmRemainingTimeView(mRemainingTimeView);
+            mTimer.setmScoreView(mScoreView);
+            mTimer.setmAnswerListView(mAnswerListView);
+
             mNicknameView.setText(sUser.getmNickname());
             mScoreView.setText(String.valueOf(sUser.getmScore()));
             mQuestionTextView.setText(mSelectedQuestion.getmText());
@@ -114,7 +94,6 @@ public class QuestionFragment extends Fragment {
 
             if (mSelectedQuestion.getmHasBeenAnswered()) {
                 mRemainingTimeLabel.setVisibility(View.GONE);
-                //mRemainingTimeView.settra
                 if (mSelectedQuestion.getmAnsweredCorrectly()) {
                     mRemainingTimeView.setText("Correct");
                     mRemainingTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_green));

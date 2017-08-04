@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-public class PointsActivity extends AppCompatActivity implements FragmentItemListener {
+public class PointsActivity extends AppCompatActivity implements PointsFragment.QuestionListListener {
 
     public static final String CLICKED_QUESTION_POSITION = "clicked_question_position";
     //public static final String SELECTED_QUESTION = "selected_question";
@@ -36,7 +36,7 @@ public class PointsActivity extends AppCompatActivity implements FragmentItemLis
     }
 
     @Override
-    public void itemClicked(int position) {
+    public void questionClicked(int position) {
         Intent intent = new Intent(PointsActivity.this, QuestionActivity.class);
         mBundle.putInt(CLICKED_QUESTION_POSITION, position);
         intent.putExtras(mBundle);
