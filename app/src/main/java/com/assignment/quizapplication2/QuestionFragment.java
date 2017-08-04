@@ -11,15 +11,17 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.HashMap;
-
 public class QuestionFragment extends Fragment {
+
+    static interface AnswerListener {
+        void answerClicked(View v, String clickedAnswer, boolean answerCorrect);
+    }
 
     private Context mContext;
     private TextView mRemainingTime;
 
     private static Handler msHandler = new Handler();
-    private FragmentListener mListener;
+    private AnswerListener mListener;
     private Question mSelectedQuestion;
     private User mUser;
     private Timer mTimer;
@@ -36,7 +38,7 @@ public class QuestionFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
-        this.mListener = (FragmentListener) mContext;
+        this.mListener = (AnswerListener) mContext;
     }
 
     @Override
@@ -66,8 +68,7 @@ public class QuestionFragment extends Fragment {
             score.setText(String.valueOf(mUser.getmScore()));
             question.setText(mSelectedQuestion.getmText());
 
-            HashMap<String, Boolean> answers = mSelectedQuestion.getmAnswerMap();
-            answerList.setAdapter(new AnswerButtonAdapter(mContext, answers, mListener));
+            answerList.setAdapter(new AnswerButtonAdapter(mContext, mSelectedQuestion, mListener));
             mTimer = new Timer(mContext, mUser, mSelectedQuestion, mRemainingTime, msHandler);
             mTimer.setmRunning(true);
             msHandler.post(mTimer);

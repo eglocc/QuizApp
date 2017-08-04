@@ -17,7 +17,7 @@ public class PointsFragment extends Fragment {
 
     private Context mContext;
     private DatabaseReference mDatabase;
-    private FragmentListener mListener;
+    private FragmentItemListener mListener;
     private GridView mGridView;
 
     private int mCategoryId;
@@ -30,7 +30,7 @@ public class PointsFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = context;
-        this.mListener = (FragmentListener) mContext;
+        this.mListener = (FragmentItemListener) mContext;
     }
 
     @Nullable

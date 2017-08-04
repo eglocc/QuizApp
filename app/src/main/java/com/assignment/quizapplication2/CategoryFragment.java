@@ -22,10 +22,10 @@ import static com.assignment.quizapplication2.Category.mCategoryList;
 public class CategoryFragment extends ListFragment {
 
     private DatabaseReference mDatabase;
-    private FragmentListener mListener;
+    private FragmentItemListener mListener;
 
     private void loadCategoryNames(final LayoutInflater inflater) {
-        Query queryRef = mDatabase.child("categories").orderByChild("mCategoryName");
+        Query queryRef = mDatabase.child("categories").orderByKey();
         queryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -35,6 +35,7 @@ public class CategoryFragment extends ListFragment {
                     Category category = child.getValue(Category.class);
                     mCategoryList.add(category);
                     names[count] = category.toString();
+                    count++;
                 }
 
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1, names);
@@ -51,7 +52,7 @@ public class CategoryFragment extends ListFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.mListener = (FragmentListener) context;
+        this.mListener = (FragmentItemListener) context;
     }
 
     @Override

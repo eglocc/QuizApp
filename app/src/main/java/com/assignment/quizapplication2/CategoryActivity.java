@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-public class CategoryActivity extends AppCompatActivity implements FragmentListener {
+public class CategoryActivity extends AppCompatActivity implements FragmentItemListener {
 
     public static final String CLICKED_CATEGORY_POSITION = "clicked_category_position";
 

@@ -14,14 +14,16 @@ import java.util.List;
 public class AnswerButtonAdapter extends BaseAdapter {
 
     private Context mContext;
+    private Question mSelectedQuestion;
     private HashMap<String, Boolean> mAnswerMap;
     private List<String> mAnswerSet;
-    private FragmentListener mAnswerListListener;
+    private QuestionFragment.AnswerListener mAnswerListListener;
 
-    public AnswerButtonAdapter(Context c, HashMap<String, Boolean> map, FragmentListener listListener) {
+    public AnswerButtonAdapter(Context c, Question selected, QuestionFragment.AnswerListener answerListener) {
         this.mContext = c;
-        this.mAnswerMap = map;
-        this.mAnswerListListener = listListener;
+        this.mSelectedQuestion = selected;
+        this.mAnswerMap = selected.getmAnswerMap();
+        this.mAnswerListListener = answerListener;
 
         mAnswerSet = new ArrayList<>();
         for (String s : mAnswerMap.keySet()) {
@@ -46,18 +48,35 @@ public class AnswerButtonAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-
         final String answer = mAnswerSet.get(position);
+
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.answer_list_item, null);
         }
         final Button button = (Button) convertView.findViewById(R.id.answer_button);
-        button.setText(answer);
+        if (answer.length() > 3 && answer.charAt(3) == '_')
+            button.setText(answer.substring(4));
+        else
+            button.setText(answer);
+
+
+        if (mSelectedQuestion.getmHasBeenAnswered() || mSelectedQuestion.getmRemainingTime() <= 0) {
+            if (mSelectedQuestion.getmAnswerMap().get(answer)) {
+                button.setBackground(mContext.getDrawable(R.drawable.rounded_button_green));
+            }
+            if (mSelectedQuestion.getmAnsweredWrong()) {
+                if (answer.equals(mSelectedQuestion.getmClickedAnswer())) {
+                    button.setBackground(mContext.getDrawable(R.drawable.rounded_button_red));
+                }
+            }
+        }
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAnswerListListener.itemClicked(position);
+                boolean answerCorrect = mAnswerMap.get(answer);
+                mAnswerListListener.answerClicked(v, answer, answerCorrect);
             }
         });
 

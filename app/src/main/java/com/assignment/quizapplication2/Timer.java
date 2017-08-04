@@ -61,7 +61,7 @@ public class Timer implements Runnable {
         } else if (seconds <= 0) {
             mRanOutOfTime = true;
             setmRunning(false);
-            mUser.answeredWrong();
+            mUser.answeredWrong(mQuestion.getmScore());
             //goToNextQuestion();
         }
         if (!mRanOutOfTime)

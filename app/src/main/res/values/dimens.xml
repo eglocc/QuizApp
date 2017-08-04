@@ -10,5 +10,6 @@
     <dimen name="end_info_text_size">24sp</dimen>
     <dimen name="margin_x_for_points">20dp</dimen>
     <dimen name="margin_y_for_points">40dp</dimen>
-    <dimen name="rounded_button_radiues">1000dp</dimen>
+    <dimen name="rounded_button_radius">1000dp</dimen>
+    <dimen name="button_border">3dp</dimen>
 </resources>

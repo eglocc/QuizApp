@@ -20,6 +20,8 @@ public class Question implements Parcelable, Comparable {
     private int mRemainingTime;
     private boolean mAnsweredCorrectly;
     private boolean mAnsweredWrong;
+    private boolean mHasBeenAnswered;
+    private String mClickedAnswer;
 
     public Question(String text, int score, String category, HashMap<String, Boolean> answers) {
         this.mText = text;
@@ -39,6 +41,7 @@ public class Question implements Parcelable, Comparable {
         this.mRemainingTime = source.readInt();
         this.mAnsweredCorrectly = source.readByte() != 0;
         this.mAnsweredWrong = source.readByte() != 0;
+        this.mHasBeenAnswered = source.readByte() != 0;
         final int size = source.readInt();
         mAnswerMap = new HashMap<>(size);
         for (int i = 0; i < size; i++) {
@@ -116,6 +119,22 @@ public class Question implements Parcelable, Comparable {
         this.mAnsweredWrong = wrong;
     }
 
+    public boolean getmHasBeenAnswered() {
+        return mHasBeenAnswered;
+    }
+
+    public void setmHasBeenAnswered(boolean answered) {
+        mHasBeenAnswered = answered;
+    }
+
+    public String getmClickedAnswer() {
+        return mClickedAnswer;
+    }
+
+    public void setmClickedAnswer(String clicked) {
+        this.mClickedAnswer = clicked;
+    }
+
     public static final Creator CREATOR = new Creator() {
         @Override
         public Object createFromParcel(Parcel source) {
@@ -140,6 +159,7 @@ public class Question implements Parcelable, Comparable {
         dest.writeInt(mRemainingTime);
         dest.writeByte((byte) (mAnsweredCorrectly ? 1 : 0));
         dest.writeByte((byte) (mAnsweredWrong ? 1 : 0));
+        dest.writeByte((byte) (mHasBeenAnswered ? 1 : 0));
         dest.writeInt(mAnswerMap.size());
         for (Map.Entry<String, Boolean> entry : mAnswerMap.entrySet()) {
             dest.writeString(entry.getKey());

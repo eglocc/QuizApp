@@ -14,9 +14,9 @@ public class PointButtonAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<Question> mQuestionList;
-    private FragmentListener mScoreListListener;
+    private FragmentItemListener mScoreListListener;
 
-    public PointButtonAdapter(Context c, List<Question> list, FragmentListener listListener) {
+    public PointButtonAdapter(Context c, List<Question> list, FragmentItemListener listListener) {
         this.mContext = c;
         this.mQuestionList = list;
         this.mScoreListListener = listListener;
@@ -48,6 +48,14 @@ public class PointButtonAdapter extends BaseAdapter {
         Log.d("question", question.getmText());
         final Button button = (Button) convertView.findViewById(R.id.score_button);
         button.setText(score);
+
+        if (mQuestionList.get(position).getmAnsweredCorrectly())
+            button.setBackgroundColor(mContext.getResources().getColor(R.color.colorGreen, null));
+        else if (mQuestionList.get(position).getmAnsweredWrong())
+            button.setBackgroundColor(mContext.getResources().getColor(R.color.colorRed, null));
+        else if (mQuestionList.get(position).getmRemainingTime() <= 0)
+            button.setBackgroundColor(mContext.getResources().getColor(R.color.colorBlue, null));
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

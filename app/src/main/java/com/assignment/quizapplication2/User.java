@@ -37,12 +37,12 @@ public class User implements Parcelable {
         this.mScore = mScore;
     }
 
-    public void answeredCorrectly() {
-        this.mScore += mWrongAnswerScoreIncrease;
+    public void answeredCorrectly(int won) {
+        this.mScore += won;
     }
 
-    public void answeredWrong() {
-        this.mScore -= mWrongAnswerScoreDeduction;
+    public void answeredWrong(int lost) {
+        this.mScore -= lost;
     }
 
     public static final Parcelable.Creator<User> CREATOR = new Creator<User>() {

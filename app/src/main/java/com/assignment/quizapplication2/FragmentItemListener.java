@@ -1,6 +1,6 @@
 package com.assignment.quizapplication2;
 
 
-public interface FragmentListener {
+public interface FragmentItemListener {
     void itemClicked(int position);
 }
