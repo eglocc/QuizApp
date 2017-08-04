@@ -66,6 +66,7 @@ public class AnswerButtonAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.answer_list_item, null);
         }
         final Button button = (Button) convertView.findViewById(R.id.answer_button);
+
         if (mAnswerMap.get(answer)) {
             button.setTag("true_answer");
         }

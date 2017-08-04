@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import static com.assignment.quizapplication2.LoginActivity.sUser;
+
 public class QuestionFragment extends Fragment {
 
     static interface AnswerListener {
@@ -34,8 +36,8 @@ public class QuestionFragment extends Fragment {
                 mHandler.postDelayed(this, 1000);
             } else if (seconds <= 0) {
                 if (!mSelectedQuestion.getmHasBeenAnswered()) {
-                    mUser.answeredWrong(mSelectedQuestion.getmScore());
-                    mScoreView.setText(String.valueOf(mUser.getmScore()));
+                    sUser.answeredWrong(mSelectedQuestion.getmScore());
+                    mScoreView.setText(String.valueOf(sUser.getmScore()));
                 }
                 mRemainingTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_red));
                 mRemainingTimeView.setText(getResources().getString(R.string.times_up));
@@ -53,20 +55,20 @@ public class QuestionFragment extends Fragment {
 
     private Context mContext;
     private AnswerListener mListener;
-    private TextView mRemainingTimeView;
-    private TextView mRemainingTimeLabel;
-    private TextView mScoreView;
-    private Question mSelectedQuestion;
-    private User mUser;
     private Timer mTimer;
     private Handler mHandler;
 
+    private TextView mRemainingTimeView;
+    private TextView mRemainingTimeLabel;
+    private TextView mScoreView;
+    private TextView mNicknameView;
+    private TextView mQuestionTextView;
+    private ListView mAnswerListView;
+
+    private Question mSelectedQuestion;
+
     public void setmSelectedQuestion(Question question) {
         mSelectedQuestion = question;
-    }
-
-    public void setmUser(User user) {
-        mUser = user;
     }
 
     public void setmTimer(Timer timer) {
@@ -82,11 +84,6 @@ public class QuestionFragment extends Fragment {
         super.onAttach(context);
         mContext = context;
         this.mListener = (AnswerListener) mContext;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -105,18 +102,19 @@ public class QuestionFragment extends Fragment {
             mRemainingTimeLabel = (TextView) view.findViewById(R.id.remaining_time_label);
             mScoreView = (TextView) view.findViewById(R.id.score);
 
-            TextView nickname = (TextView) view.findViewById(R.id.nickname);
-            TextView question = (TextView) view.findViewById(R.id.question_text);
-            ListView answerList = (ListView) view.findViewById(R.id.answer_list_view);
+            mNicknameView = (TextView) view.findViewById(R.id.nickname);
+            mQuestionTextView = (TextView) view.findViewById(R.id.question_text);
+            mAnswerListView = (ListView) view.findViewById(R.id.answer_list_view);
 
-            nickname.setText(mUser.getmNickname());
-            mScoreView.setText(String.valueOf(mUser.getmScore()));
-            question.setText(mSelectedQuestion.getmText());
+            mNicknameView.setText(sUser.getmNickname());
+            mScoreView.setText(String.valueOf(sUser.getmScore()));
+            mQuestionTextView.setText(mSelectedQuestion.getmText());
 
-            answerList.setAdapter(new AnswerButtonAdapter(mContext, mSelectedQuestion, mListener));
+            mAnswerListView.setAdapter(new AnswerButtonAdapter(mContext, mSelectedQuestion, mListener));
 
             if (mSelectedQuestion.getmHasBeenAnswered()) {
                 mRemainingTimeLabel.setVisibility(View.GONE);
+                //mRemainingTimeView.settra
                 if (mSelectedQuestion.getmAnsweredCorrectly()) {
                     mRemainingTimeView.setText("Correct");
                     mRemainingTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_green));

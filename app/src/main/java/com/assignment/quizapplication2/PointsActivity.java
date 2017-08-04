@@ -38,14 +38,13 @@ public class PointsActivity extends AppCompatActivity implements FragmentItemLis
     @Override
     public void itemClicked(int position) {
         Intent intent = new Intent(PointsActivity.this, QuestionActivity.class);
-        //Question selectedQuestion = Category.mCategoryList.get(mClickedCategory).getmQuestionList().get(position);
         mBundle.putInt(CLICKED_QUESTION_POSITION, position);
-        //mBundle.putParcelable(SELECTED_QUESTION, selectedQuestion);
         intent.putExtras(mBundle);
-        displayBundleOnLog();
+        //displayBundleOnLog();
         startActivity(intent);
     }
 
+    //For debugging purposes
     private void displayBundleOnLog() {
         for (String s : mBundle.keySet()) {
             Log.d(s, mBundle.get(s).toString());

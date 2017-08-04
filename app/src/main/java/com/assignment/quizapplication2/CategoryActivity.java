@@ -17,7 +17,7 @@ public class CategoryActivity extends AppCompatActivity implements FragmentItemL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
-        mBundle = getIntent().getExtras();
+        mBundle = new Bundle();
 
         mCategoryFragment = (CategoryFragment) getFragmentManager().findFragmentById(R.id.list_category_fragment);
     }

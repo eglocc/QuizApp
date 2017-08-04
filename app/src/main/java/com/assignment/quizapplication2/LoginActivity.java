@@ -9,11 +9,12 @@ import android.widget.EditText;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final String NICKNAME = "nickname";
+    public static final String USER = "user";
+    private static final String NICKNAME = "nickname";
 
     private Button mStartButton;
     private EditText mEditText;
-    private User mUser;
+    static User sUser = new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,21 +28,21 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String nickname = mEditText.getText().toString();
+                sUser.setmNickname(nickname);
                 Intent intent = new Intent(LoginActivity.this, CategoryActivity.class);
-                intent.putExtra(NICKNAME, nickname);
                 startActivity(intent);
             }
         });
 
 
         if (savedInstanceState != null) {
-            String text = savedInstanceState.getString("text");
+            String text = savedInstanceState.getString(NICKNAME);
             mEditText.setText(text);
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putString("text", mEditText.getText().toString());
+        savedInstanceState.putString(NICKNAME, mEditText.getText().toString());
     }
 }

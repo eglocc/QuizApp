@@ -66,42 +66,66 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/question_text_size"
         android:layout_gravity="center_horizontal"
-        android:padding="@dimen/question_padding"
-        android:layout_margin="@dimen/space_between_views"
+        android:layout_marginTop="@dimen/space_between_views"
+        android:layout_marginBottom="@dimen/space_between_views"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:textAlignment="center"
-        android:fontFamily="sans-serif-medium"
-        android:background="@drawable/score_button" />
+        android:fontFamily="sans-serif-medium" />
 
-    <ListView
-        android:id="@+id/answer_list_view"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp" />
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
         android:layout_margin="@dimen/space_between_views">
 
-    </ListView>
+        <ListView
+            android:id="@+id/answer_list_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="@dimen/space_between_views"
+            android:layout_margin="@dimen/space_between_views" />
 
-    <TextView
-        android:id="@+id/remaining_time_label"
+    </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/remaining_time"
-        android:textSize="@dimen/info_text_size"
-        android:fontFamily="sans-serif-medium"
-        android:layout_marginTop="@dimen/space_between_views"
-        android:layout_marginBottom="@dimen/space_between_views_half" />
+        android:layout_marginTop="@dimen/space_between_views">
 
-    <TextView
-        android:id="@+id/remaining_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/score_button"
-        android:paddingTop="@dimen/time_padding_vertical"
-        android:paddingBottom="@dimen/time_padding_vertical"
-        android:paddingLeft="@dimen/time_padding_horizontal"
-        android:paddingRight="@dimen/time_padding_horizontal"
-        android:layout_margin="@dimen/space_between_views_half" />
+        <TextView
+            android:id="@+id/remaining_time_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/remaining_time"
+            android:textSize="@dimen/info_text_size"
+            android:fontFamily="sans-serif-medium"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/space_between_views_half" />
+
+        <TextView
+            android:id="@+id/remaining_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/score_button"
+            android:paddingTop="@dimen/time_padding_vertical"
+            android:paddingBottom="@dimen/time_padding_vertical"
+            android:paddingLeft="@dimen/time_padding_horizontal"
+            android:paddingRight="@dimen/time_padding_horizontal"
+            android:layout_margin="@dimen/space_between_views_half" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

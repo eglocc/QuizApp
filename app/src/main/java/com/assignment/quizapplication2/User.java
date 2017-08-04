@@ -5,9 +5,6 @@ import android.os.Parcelable;
 
 public class User implements Parcelable {
 
-    final private int mWrongAnswerScoreDeduction = 20;
-    final private int mWrongAnswerScoreIncrease = 100;
-
     private String mNickname;
     private int mScore;
 
