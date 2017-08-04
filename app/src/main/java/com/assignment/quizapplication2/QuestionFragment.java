@@ -63,6 +63,19 @@ public class QuestionFragment extends Fragment {
             question.setText(mSelectedQuestion.getmText());
 
             answerList.setAdapter(new AnswerButtonAdapter(mContext, mSelectedQuestion, mListener));
+
+            if (mSelectedQuestion.getmHasBeenAnswered()) {
+                TextView tv = (TextView) getView().findViewById(R.id.remaining_time_label);
+                TextView mRemainingTimeView = (TextView) getView().findViewById(R.id.remaining_time);
+                tv.setVisibility(View.GONE);
+                if (mSelectedQuestion.getmAnsweredCorrectly()) {
+                    mRemainingTimeView.setText("Correct");
+                    mRemainingTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_green));
+                } else if (mSelectedQuestion.getmAnsweredWrong()) {
+                    mRemainingTimeView.setText("Wrong");
+                    mRemainingTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_red));
+                }
+            }
         }
     }
 }

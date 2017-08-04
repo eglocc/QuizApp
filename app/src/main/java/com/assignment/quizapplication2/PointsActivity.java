@@ -8,7 +8,7 @@ import android.util.Log;
 public class PointsActivity extends AppCompatActivity implements FragmentItemListener {
 
     public static final String CLICKED_QUESTION_POSITION = "clicked_question_position";
-    public static final String SELECTED_QUESTION = "selected_question";
+    //public static final String SELECTED_QUESTION = "selected_question";
 
     private PointsFragment mPointsFragment;
     private Bundle mBundle;
@@ -38,7 +38,7 @@ public class PointsActivity extends AppCompatActivity implements FragmentItemLis
     @Override
     public void itemClicked(int position) {
         Intent intent = new Intent(PointsActivity.this, QuestionActivity.class);
-        Question selectedQuestion = Category.mCategoryList.get(mClickedCategory).getmQuestionList().get(position);
+        //Question selectedQuestion = Category.mCategoryList.get(mClickedCategory).getmQuestionList().get(position);
         mBundle.putInt(CLICKED_QUESTION_POSITION, position);
         //mBundle.putParcelable(SELECTED_QUESTION, selectedQuestion);
         intent.putExtras(mBundle);

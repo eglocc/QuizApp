@@ -102,15 +102,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
             mTimer.setmRunning(true);
             msHandler.post(mTimer);
         } else {
-            TextView tv = (TextView) findViewById(R.id.remaining_time_label);
-            tv.setVisibility(View.GONE);
-            if (mQuestion.getmAnsweredCorrectly()) {
-                mRemainingTimeView.setText("Correct");
-                mRemainingTimeView.setBackground(getDrawable(R.drawable.score_button_green));
-            } else if (mQuestion.getmAnsweredWrong()) {
-                mRemainingTimeView.setText("Wrong");
-                mRemainingTimeView.setBackground(getDrawable(R.drawable.score_button_red));
-            }
+
         }
     }
 
