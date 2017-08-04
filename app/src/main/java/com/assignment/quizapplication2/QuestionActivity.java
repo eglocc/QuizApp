@@ -2,10 +2,12 @@ package com.assignment.quizapplication2;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -13,6 +15,9 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
 
     private Bundle mBundle;
     private QuestionFragment mQuestionFragment;
+    private TextView mRemainingTimeView;
+    private Timer mTimer;
+    private static Handler msHandler = new Handler();
 
     private int mCategoryId;
     private int mQuestionId;
@@ -34,18 +39,49 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
 
         mQuestionFragment = (QuestionFragment) getFragmentManager().findFragmentById(R.id.question_fragment);
 
+        mRemainingTimeView = (TextView) mQuestionFragment.getView().findViewById(R.id.remaining_time);
+
         mCategoryId = mBundle.getInt(CategoryActivity.CLICKED_CATEGORY_POSITION);
         mQuestionId = mBundle.getInt(PointsActivity.CLICKED_QUESTION_POSITION);
         mQuestionList = Category.mCategoryList.get(mCategoryId).getmQuestionList();
         mQuestion = mQuestionList.get(mQuestionId);
+        mTimer = new Timer(this, msUser, mQuestion, mRemainingTimeView, msHandler);
         mQuestionFragment.setmSelectedQuestion(mQuestion);
         mQuestionFragment.setmUser(msUser);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!mQuestion.getmHasBeenAnswered()) {
+            mTimer.setmRunning(true);
+            msHandler.post(mTimer);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(QuestionActivity.this, PointsActivity.class);
+        mTimer.setmRunning(false);
+        msHandler.removeCallbacks(mTimer);
+        intent.putExtras(mBundle);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mTimer.setmRunning(false);
+        msHandler.removeCallbacks(mTimer);
     }
 
     @Override
     public void answerClicked(View v, String clickedAnswer, boolean answerCorrect) {
         mQuestion.setmHasBeenAnswered(true);
         mQuestion.setmClickedAnswer(clickedAnswer);
+        mTimer.setmRunning(false);
+        msHandler.removeCallbacks(mTimer);
 
         ListView answers = (ListView) v.getParent();
         int answer_button_count = answers.getChildCount();
@@ -63,15 +99,30 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
             v.setBackground(getDrawable(R.drawable.rounded_button_red));
         }
 
-        if (mQuestionId < mQuestionList.size() - 1) {
-            mQuestionId++;
-            mBundle.putParcelable("user", msUser);
+        int quizFinished = isAllQuestionsAnswered(mQuestionId);
+        if (quizFinished != -1) {
+            mQuestionId = quizFinished;
+            Log.d("quiz finished", String.valueOf(quizFinished));
             mBundle.putInt(PointsActivity.CLICKED_QUESTION_POSITION, mQuestionId);
+            mTimer.setmRunning(false);
+            msHandler.removeCallbacks(mTimer);
             Intent intent = new Intent(QuestionActivity.this, QuestionActivity.class);
             intent.putExtras(mBundle);
             startActivity(intent);
         } else {
-            Log.d("Else", "finish");
+            Intent intent = new Intent(QuestionActivity.this, LoginActivity.class);
+            intent.putExtras(mBundle);
+            startActivity(intent);
         }
+    }
+
+    private int isAllQuestionsAnswered(int id) {
+        for (Question q : mQuestionList) {
+            if (!q.getmHasBeenAnswered() && q.getmRemainingTime() > 0) {
+                id = q.getmQuestionId();
+                return id;
+            }
+        }
+        return -1;
     }
 }

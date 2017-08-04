@@ -3,7 +3,6 @@ package com.assignment.quizapplication2;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +17,9 @@ public class QuestionFragment extends Fragment {
     }
 
     private Context mContext;
-    private TextView mRemainingTime;
-
-    private static Handler msHandler = new Handler();
     private AnswerListener mListener;
     private Question mSelectedQuestion;
     private User mUser;
-    private Timer mTimer;
 
     public void setmSelectedQuestion(Question question) {
         mSelectedQuestion = question;
@@ -61,7 +56,6 @@ public class QuestionFragment extends Fragment {
             TextView nickname = (TextView) view.findViewById(R.id.nickname);
             TextView score = (TextView) view.findViewById(R.id.score);
             TextView question = (TextView) view.findViewById(R.id.question_text);
-            mRemainingTime = (TextView) view.findViewById(R.id.remaining_time);
             ListView answerList = (ListView) view.findViewById(R.id.answer_list_view);
 
             nickname.setText(mUser.getmNickname());
@@ -69,9 +63,6 @@ public class QuestionFragment extends Fragment {
             question.setText(mSelectedQuestion.getmText());
 
             answerList.setAdapter(new AnswerButtonAdapter(mContext, mSelectedQuestion, mListener));
-            mTimer = new Timer(mContext, mUser, mSelectedQuestion, mRemainingTime, msHandler);
-            mTimer.setmRunning(true);
-            msHandler.post(mTimer);
         }
     }
 }
