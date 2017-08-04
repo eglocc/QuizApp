@@ -6,12 +6,46 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
 
 public class QuestionActivity extends AppCompatActivity implements QuestionFragment.AnswerListener {
+
+    private class ActivityTimer extends Timer {
+
+        private boolean mRanOutOfTime;
+
+        public ActivityTimer(int seconds) {
+            super(seconds);
+        }
+
+        @Override
+        public void run() {
+            int seconds = getmSeconds();
+            boolean running = getmRunning();
+            String time = String.format("00:%02d", seconds);
+            mRemainingTimeView.setText(time);
+            if (running && seconds > 0) {
+                Log.d("sec", String.valueOf(seconds));
+                decrementmSeconds();
+                mQuestion.decrementmRemainingTime();
+            } else if (seconds <= 0) {
+                mRanOutOfTime = true;
+                setmRunning(false);
+                msUser.answeredWrong(mQuestion.getmScore());
+                mRemainingTimeView.setBackground(getDrawable(R.drawable.score_button_red));
+                mRemainingTimeView.setText(getResources().getString(R.string.times_up));
+                ListView answerList = (ListView) findViewById(R.id.answer_list_view);
+                Button button = (Button) answerList.findViewWithTag("true_answer");
+                button.setBackground(getDrawable(R.drawable.rounded_button_green));
+            }
+            if (!mRanOutOfTime)
+                msHandler.postDelayed(this, 1000);
+        }
+    }
 
     private Bundle mBundle;
     private QuestionFragment mQuestionFragment;
@@ -45,19 +79,11 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         mQuestionId = mBundle.getInt(PointsActivity.CLICKED_QUESTION_POSITION);
         mQuestionList = Category.mCategoryList.get(mCategoryId).getmQuestionList();
         mQuestion = mQuestionList.get(mQuestionId);
-        mTimer = new Timer(this, msUser, mQuestion, mRemainingTimeView, msHandler);
+        mTimer = new ActivityTimer(mQuestion.getmRemainingTime());
         mQuestionFragment.setmSelectedQuestion(mQuestion);
         mQuestionFragment.setmUser(msUser);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (!mQuestion.getmHasBeenAnswered()) {
-            mTimer.setmRunning(true);
-            msHandler.post(mTimer);
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -67,6 +93,32 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         msHandler.removeCallbacks(mTimer);
         intent.putExtras(mBundle);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!mQuestion.getmHasBeenAnswered()) {
+            mTimer.setmRunning(true);
+            msHandler.post(mTimer);
+        } else {
+            TextView tv = (TextView) findViewById(R.id.remaining_time_label);
+            tv.setVisibility(View.GONE);
+            if (mQuestion.getmAnsweredCorrectly()) {
+                mRemainingTimeView.setText("Correct");
+                mRemainingTimeView.setBackground(getDrawable(R.drawable.score_button_green));
+            } else if (mQuestion.getmAnsweredWrong()) {
+                mRemainingTimeView.setText("Wrong");
+                mRemainingTimeView.setBackground(getDrawable(R.drawable.score_button_red));
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mTimer.setmRunning(false);
+        msHandler.removeCallbacks(mTimer);
     }
 
     @Override
@@ -100,6 +152,10 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
             v.setBackground(getDrawable(R.drawable.rounded_button_red));
         }
 
+        goNext();
+    }
+
+    public void goNext() {
         int quizFinished = isAllQuestionsAnswered(mQuestionId);
         if (quizFinished != -1) {
             mQuestionId = quizFinished;

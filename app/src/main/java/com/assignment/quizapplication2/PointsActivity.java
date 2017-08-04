@@ -28,6 +28,14 @@ public class PointsActivity extends AppCompatActivity implements FragmentItemLis
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(PointsActivity.this, CategoryActivity.class);
+        intent.putExtras(mBundle);
+        startActivity(intent);
+    }
+
+    @Override
     public void itemClicked(int position) {
         Intent intent = new Intent(PointsActivity.this, QuestionActivity.class);
         Question selectedQuestion = Category.mCategoryList.get(mClickedCategory).getmQuestionList().get(position);

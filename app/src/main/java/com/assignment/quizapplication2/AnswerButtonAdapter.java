@@ -66,12 +66,17 @@ public class AnswerButtonAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.answer_list_item, null);
         }
         final Button button = (Button) convertView.findViewById(R.id.answer_button);
+        if (mAnswerMap.get(answer)) {
+            button.setTag("true_answer");
+        }
+
         if (answer.length() > 3 && answer.charAt(3) == '_')
             button.setText(answer.substring(4));
         else
             button.setText(answer);
 
         if (mSelectedQuestion.getmHasBeenAnswered() || mSelectedQuestion.getmRemainingTime() < 1) {
+            button.setEnabled(false);
             if (mAnswerMap.get(answer)) {
                 Log.d("first if", "here");
                 button.setBackground(mContext.getDrawable(R.drawable.rounded_button_green));

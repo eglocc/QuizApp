@@ -1,28 +1,13 @@
 package com.assignment.quizapplication2;
 
-import android.content.Context;
-import android.os.Handler;
-import android.widget.TextView;
-
-public class Timer implements Runnable {
+public abstract class Timer implements Runnable {
 
     private int mSeconds;
     private boolean mRunning;
     private boolean mRanOutOfTime;
 
-    private Context mContext;
-    private TextView mTimeView;
-    private Handler mHandler;
-    private Question mQuestion;
-    private User mUser;
-
-    public Timer(Context c, User user, Question question, TextView tv, Handler handler) {
-        this.mSeconds = question.getmRemainingTime();
-        this.mContext = c;
-        this.mUser = user;
-        this.mQuestion = question;
-        this.mHandler = handler;
-        this.mTimeView = tv;
+    public Timer(int seconds) {
+        this.mSeconds = seconds;
     }
 
     final public int getmSeconds() {
@@ -49,6 +34,7 @@ public class Timer implements Runnable {
         this.mSeconds++;
     }
 
+    /*
     @Override
     public void run() {
         int seconds = getmSeconds();
@@ -62,10 +48,11 @@ public class Timer implements Runnable {
             mRanOutOfTime = true;
             setmRunning(false);
             mUser.answeredWrong(mQuestion.getmScore());
-            //goToNextQuestion();
+            mTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_red));
+            mTimeView.setText(mContext.getResources().getString(R.string.times_up));
         }
         if (!mRanOutOfTime)
             mHandler.postDelayed(this, 1000);
-    }
+    }*/
 }
 
