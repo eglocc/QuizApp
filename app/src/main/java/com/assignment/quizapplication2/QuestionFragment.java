@@ -51,10 +51,6 @@ public class QuestionFragment extends Fragment {
         mHandler = handler;
     }
 
-    public void setmSelectedQuestion(Question question) {
-        mSelectedQuestion = question;
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -82,9 +78,12 @@ public class QuestionFragment extends Fragment {
             mQuestionTextView = (TextView) view.findViewById(R.id.question_text);
             mAnswerListView = (ListView) view.findViewById(R.id.answer_list_view);
 
+            mSelectedQuestion = Category.mCategoryList.get(mCategoryId).getmQuestionList().get(mQuestionId);
+
             mTimer.setmRemainingTimeView(mRemainingTimeView);
             mTimer.setmScoreView(mScoreView);
             mTimer.setmAnswerListView(mAnswerListView);
+            mTimer.setmSelectedQuestion(mSelectedQuestion);
 
             mNicknameView.setText(sUser.getmNickname());
             mScoreView.setText(String.valueOf(sUser.getmScore()));

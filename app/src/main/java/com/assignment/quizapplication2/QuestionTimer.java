@@ -17,10 +17,19 @@ public class QuestionTimer extends Timer {
     private TextView mScoreView;
     private ListView mAnswerListView;
 
+    public QuestionTimer(Context c, Handler handler) {
+        this.mContext = c;
+        this.mHandler = handler;
+    }
+
     public QuestionTimer(Context c, Question question, Handler handler) {
         this.mContext = c;
         this.mSelectedQuestion = question;
         this.mHandler = handler;
+    }
+
+    public void setmSelectedQuestion(Question mSelectedQuestion) {
+        this.mSelectedQuestion = mSelectedQuestion;
     }
 
     public void setmRemainingTimeView(TextView tv) {

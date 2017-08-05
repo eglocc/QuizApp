@@ -37,12 +37,11 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         mQuestionId = mBundle.getInt(PointsActivity.CLICKED_QUESTION_POSITION);
         mQuestionList = Category.mCategoryList.get(mCategoryId).getmQuestionList();
         mQuestion = mQuestionList.get(mQuestionId);
-        mTimer = new QuestionTimer(this, mQuestion, mHandler);
+        mTimer = new QuestionTimer(this, mHandler);
 
         //Transfer important data to the fragment
         mQuestionFragment.setmCategoryId(mCategoryId);
         mQuestionFragment.setmQuestionId(mQuestionId);
-        mQuestionFragment.setmSelectedQuestion(mQuestion);
         mQuestionFragment.setmTimer(mTimer);
         mQuestionFragment.setmHandler(mHandler);
     }
@@ -85,7 +84,12 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
     public void goNext() {
         int quizFinished = isAllQuestionsAnswered(mQuestionId);
         if (quizFinished != -1) {
-            mQuestionId = quizFinished;
+
+            if (mQuestionId < mQuestionList.size() - 1)
+                mQuestionId++;
+            else
+                mQuestionId = quizFinished;
+
             mBundle.putInt(PointsActivity.CLICKED_QUESTION_POSITION, mQuestionId);
             Intent intent = new Intent(QuestionActivity.this, QuestionActivity.class);
             intent.putExtras(mBundle);
