@@ -176,58 +176,40 @@ public class CategoryActivity extends AppCompatActivity
      * @param forward: true for next question / false for previous question
      */
     public void updateFrameLayout(boolean forward) {
-        int quizFinished = isAllQuestionsAnswered(mQuestionId);
-
-        if (quizFinished != -1) {
-
-            if (forward) {
-                if (mQuestionId < mQuestionList.size() - 1)
-                    mQuestionId++;
-                else
-                    mQuestionId = quizFinished;
-
+        if (forward) {
+            int unAnsweredQuestionIndex = findUnAnsweredQuestion(mQuestionId);
+            if (unAnsweredQuestionIndex != -1) {
+                mQuestionId = unAnsweredQuestionIndex;
                 transactToQuestion(mQuestionId);
             } else {
-                if (mQuestionId > 0) {
-                    mQuestionId--;
-                    transactToQuestion(mQuestionId);
-                } else {
-                    transactToQuestionList(mCategoryId);
-                    mQuestionFragmentIsOn = false;
-                    mPointsFragmentIsOn = true;
+                if (!mCategoryCompletedHasBeenShowed) {
+                    mCategoryCompletedHasBeenShowed = true;
+                    mBundle.putBoolean(CATEGORY_COMPLETED_HAS_BEEN_SHOWED, mCategoryCompletedHasBeenShowed);
+                    goToQuizFinishActivity();
                 }
             }
         } else {
-            if (!mCategoryCompletedHasBeenShowed) {
-                mCategoryCompletedHasBeenShowed = true;
-                mBundle.putBoolean(CATEGORY_COMPLETED_HAS_BEEN_SHOWED, mCategoryCompletedHasBeenShowed);
-                goToQuizFinishActivity();
+            if (mQuestionId > 0) {
+                mQuestionId--;
+                transactToQuestion(mQuestionId);
             } else {
-                if (mQuestionId > 0) {
-                    mQuestionId--;
-                    transactToQuestion(mQuestionId);
-                } else {
-                    transactToQuestionList(mCategoryId);
-                    mQuestionFragmentIsOn = false;
-                    mPointsFragmentIsOn = true;
-                }
+                mQuestionFragmentIsOn = false;
+                mPointsFragmentIsOn = true;
+                transactToQuestionList(mCategoryId);
             }
         }
     }
 
-
-    /**
-     * An algorithm for finding out whether all questions is answered or not
-     *
-     * @param id (!)might be removed
-     * @return
-     */
-    private int isAllQuestionsAnswered(int id) {
-        for (Question q : mQuestionList) {
-            if (!q.getmHasBeenAnswered() && q.getmRemainingTime() > 0) {
-                id = q.getmQuestionId();
-                return id;
-            }
+    private int findUnAnsweredQuestion(int id) {
+        for (int i = mQuestionId; i < mQuestionList.size(); i++) {
+            Question q = mQuestionList.get(i);
+            if (!q.getmHasBeenAnswered())
+                return q.getmQuestionId();
+        }
+        for (int i = mQuestionId; i >= 0; i--) {
+            Question q = mQuestionList.get(i);
+            if (!q.getmHasBeenAnswered())
+                return q.getmQuestionId();
         }
         return -1;
     }
