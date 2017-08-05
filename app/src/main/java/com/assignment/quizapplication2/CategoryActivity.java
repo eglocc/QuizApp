@@ -81,27 +81,43 @@ public class CategoryActivity extends AppCompatActivity
         int index = getFragmentManager().getBackStackEntryCount() - 1;
         int previousIndex = getFragmentManager().getBackStackEntryCount() - 2;
         Log.d("Index", String.valueOf(index));
+        Log.d("Previous index", String.valueOf(previousIndex));
         if (index >= 0) {
             Fragment fragment = getFragment(index);
             if (fragment instanceof PointsFragment) {
+                Log.d("Fragment class", fragment.getClass().toString());
                 mCategoryClicked = false;
-                mFragmentContainer.setVisibility(View.INVISIBLE);
+                FragmentTransaction ft = getFragmentManager().beginTransaction().remove(fragment);
+                ft.commit();
+                //mFragmentContainer.setVisibility(View.INVISIBLE);
                 return;
             } else if (fragment instanceof QuestionFragment) {
-                mQuestionId--;
-                if (mQuestionId >= 0) {
-                    transactToQuestion(mQuestionId);
-                } else
-                    transactToQuestionList(mCategoryId);
-                return;
+                if (previousIndex >= 0) {
+                    Fragment previousFragment = getFragment(previousIndex);
+                    if (previousFragment instanceof PointsFragment) {
+                        Log.d("Fragment class", previousFragment.getClass().toString());
+                        transactToQuestionList(mCategoryId);
+                        return;
+                    } else if (previousFragment instanceof QuestionFragment) {
+                        mQuestionId--;
+                        Log.d("Fragment class", fragment.getClass().toString());
+                        if (mQuestionId >= 0) {
+                            transactToQuestion(mQuestionId);
+                            Log.d("Fragment class", fragment.getClass().toString());
+                            return;
+                        } else {
+                            transactToQuestionList(mCategoryId);
+                            Log.d("Fragment class", fragment.getClass().toString());
+                            return;
+                        }
+                    }
+                }
+            } else {
+                super.onBackPressed();
             }
-        }
-        if (previousIndex >= 0) {
-            Fragment previousFragment = getFragment(previousIndex);
-            if (previousFragment instanceof PointsFragment)
-                transactToQuestionList(mCategoryId);
         } else
             super.onBackPressed();
+
     }
 
     @Override
