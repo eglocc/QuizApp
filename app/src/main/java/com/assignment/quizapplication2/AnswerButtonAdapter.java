@@ -1,7 +1,6 @@
 package com.assignment.quizapplication2;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +59,6 @@ public class AnswerButtonAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final String answer = mAnswerSet.get(position);
-        Log.d("answer", answer);
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.answer_list_item, null);
@@ -79,13 +77,10 @@ public class AnswerButtonAdapter extends BaseAdapter {
         if (mSelectedQuestion.getmHasBeenAnswered() || mSelectedQuestion.getmRemainingTime() < 1) {
             button.setEnabled(false);
             if (mAnswerMap.get(answer)) {
-                Log.d("first if", "here");
                 button.setBackground(mContext.getDrawable(R.drawable.rounded_button_green));
             }
             if (mSelectedQuestion.getmAnsweredWrong()) {
-                Log.d("second if", "here");
                 if (answer.equals(mSelectedQuestion.getmClickedAnswer())) {
-                    Log.d("third if", "here");
                     button.setBackground(mContext.getDrawable(R.drawable.rounded_button_red));
                 }
             }

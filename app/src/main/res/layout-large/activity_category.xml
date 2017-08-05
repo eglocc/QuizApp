@@ -9,12 +9,14 @@
         android:id="@+id/list_category_fragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2" />
+        android:layout_weight="2"
+        android:layout_marginBottom="@dimen/space_between_views" />
 
     <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_weight="3"
+        android:layout_margin="60dp" />
 
 </LinearLayout>

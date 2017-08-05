@@ -1,14 +1,17 @@
 package com.assignment.quizapplication2;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import static com.assignment.quizapplication2.LoginActivity.sUser;
 
@@ -16,17 +19,25 @@ public class CategoryActivity extends AppCompatActivity
         implements CategoryFragment.CategoryListListener, PointsFragment.QuestionListListener, QuestionFragment.AnswerListener {
 
     public static final String CLICKED_CATEGORY_POSITION = "clicked_category_position";
+    public static final String CLICKED_QUESTION_POSITION = "clicked_question_position";
+    public static final String CLICKED_QUESTION = "clicked_question";
+    public static final String QUESTION_LIST = "question_list";
+    public static final String CATEGORY_CLICKED = "category_clicked?";
+    public static final String QUESTION_CLICKED = "question_clicked?";
+    public static final String QUESTION_CHANGED = "question_changed?";
 
 
     private View mFragmentContainer;
     private Bundle mBundle;
     private int mCategoryId;
     private int mQuestionId;
-    private List<Question> mQuestionList;
+    private ArrayList<Question> mQuestionList;
     private Question mQuestion;
     private Handler mHandler;
     private QuestionTimer mTimer;
-
+    private boolean mCategoryClicked;
+    private boolean mQuestionClicked;
+    private boolean mQuestionChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,25 +45,81 @@ public class CategoryActivity extends AppCompatActivity
         setContentView(R.layout.activity_category);
 
         mFragmentContainer = findViewById(R.id.fragment_container);
-        mBundle = new Bundle();
 
         if (mFragmentContainer != null) {
             mHandler = new Handler();
         }
+
+        if (savedInstanceState == null) {
+            mBundle = new Bundle();
+        } else {
+            mBundle = savedInstanceState;
+            mQuestion = mBundle.getParcelable(CLICKED_QUESTION);
+            mCategoryId = mBundle.getInt(CLICKED_CATEGORY_POSITION);
+            mQuestionId = mBundle.getInt(CLICKED_QUESTION_POSITION);
+            mQuestionList = mBundle.getParcelableArrayList(QUESTION_LIST);
+            mCategoryClicked = mBundle.getBoolean(CATEGORY_CLICKED);
+            mQuestionClicked = mBundle.getBoolean(QUESTION_CLICKED);
+            mQuestionChanged = mBundle.getBoolean(QUESTION_CHANGED);
+            if (mCategoryClicked && !mQuestionClicked)
+                transactToQuestionList(mCategoryId);
+            else if (mCategoryClicked && mQuestionClicked)
+                transactToQuestion(mQuestionId);
+        }
+    }
+
+    private Fragment getFragment(int index) {
+        FragmentManager.BackStackEntry backStackEntry = getFragmentManager().getBackStackEntryAt(index);
+        String tag = backStackEntry.getName();
+        Log.d("Tag", tag);
+        Fragment fragment = getFragmentManager().findFragmentByTag(tag);
+        return fragment;
     }
 
     @Override
+    public void onBackPressed() {
+        int index = getFragmentManager().getBackStackEntryCount() - 1;
+        int previousIndex = getFragmentManager().getBackStackEntryCount() - 2;
+        Log.d("Index", String.valueOf(index));
+        if (index >= 0) {
+            Fragment fragment = getFragment(index);
+            if (fragment instanceof PointsFragment) {
+                mCategoryClicked = false;
+                mFragmentContainer.setVisibility(View.INVISIBLE);
+                return;
+            } else if (fragment instanceof QuestionFragment) {
+                mQuestionId--;
+                if (mQuestionId >= 0) {
+                    transactToQuestion(mQuestionId);
+                } else
+                    transactToQuestionList(mCategoryId);
+                return;
+            }
+        }
+        if (previousIndex >= 0) {
+            Fragment previousFragment = getFragment(previousIndex);
+            if (previousFragment instanceof PointsFragment)
+                transactToQuestionList(mCategoryId);
+        } else
+            super.onBackPressed();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putInt(CLICKED_CATEGORY_POSITION, mCategoryId);
+        savedInstanceState.putInt(CLICKED_QUESTION_POSITION, mQuestionId);
+        savedInstanceState.putParcelable(CLICKED_QUESTION, mQuestion);
+        savedInstanceState.putParcelableArrayList(QUESTION_LIST, mQuestionList);
+        savedInstanceState.putBoolean(CATEGORY_CLICKED, mCategoryClicked);
+        savedInstanceState.putBoolean(QUESTION_CLICKED, mQuestionClicked);
+        savedInstanceState.putBoolean(QUESTION_CHANGED, mQuestionChanged);
+    }
+    @Override
     public void categoryClicked(int position) {
         if (mFragmentContainer != null) {
-            mCategoryId = position;
-            mQuestionList = Category.mCategoryList.get(mCategoryId).getmQuestionList();
-            PointsFragment pointsFragment = new PointsFragment();
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            pointsFragment.setmCategoryId(position);
-            ft.replace(R.id.fragment_container, pointsFragment);
-            ft.addToBackStack(null);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.commit();
+            mFragmentContainer.setVisibility(View.VISIBLE);
+            mCategoryClicked = true;
+            transactToQuestionList(position);
         } else {
             Intent intent = new Intent(this, PointsActivity.class);
             mBundle.putInt(CLICKED_CATEGORY_POSITION, position);
@@ -63,28 +130,14 @@ public class CategoryActivity extends AppCompatActivity
 
     @Override
     public void questionClicked(int position) {
-        mQuestionId = position;
-        mQuestion = Category.mCategoryList.get(mCategoryId).getmQuestionList().get(mQuestionId);
-        QuestionFragment questionFragment = new QuestionFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        questionFragment.setmCategoryId(mCategoryId);
-        questionFragment.setmQuestionId(position);
-        questionFragment.setmSelectedQuestion(mQuestion);
-        questionFragment.setmHandler(mHandler);
-
-        mTimer = new QuestionTimer(this, mQuestion, mHandler);
-
-        questionFragment.setmTimer(mTimer);
-        ft.replace(R.id.fragment_container, questionFragment);
-        ft.addToBackStack(null);
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.commit();
+        mQuestionClicked = true;
+        mQuestionChanged = true;
+        transactToQuestion(position);
     }
 
     @Override
     public void answerClicked(View v, String clickedAnswer, boolean answerCorrect) {
-
-        if (mQuestion != null) {
+        //Check without null
             mQuestion.setmHasBeenAnswered(true);
             mQuestion.setmClickedAnswer(clickedAnswer);
 
@@ -103,9 +156,7 @@ public class CategoryActivity extends AppCompatActivity
                 sUser.answeredWrong(mQuestion.getmScore());
                 v.setBackground(getDrawable(R.drawable.rounded_button_red));
             }
-
             goNext();
-        }
     }
 
     public void goNext() {
@@ -113,21 +164,8 @@ public class CategoryActivity extends AppCompatActivity
         if (quizFinished != -1) {
 
             mQuestionId = quizFinished;
-            QuestionFragment questionFragment = new QuestionFragment();
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            questionFragment.setmCategoryId(mCategoryId);
-            questionFragment.setmQuestionId(mQuestionId);
-            mQuestion = Category.mCategoryList.get(mCategoryId).getmQuestionList().get(mQuestionId);
-            questionFragment.setmSelectedQuestion(mQuestion);
-            questionFragment.setmHandler(mHandler);
-
-            mTimer = new QuestionTimer(this, mQuestion, mHandler);
-
-            questionFragment.setmTimer(mTimer);
-            ft.replace(R.id.fragment_container, questionFragment);
-            ft.addToBackStack(null);
-            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            ft.commit();
+            transactToQuestion(mQuestionId);
+            mQuestionChanged = true;
 
         } else {
             Intent intent = new Intent(CategoryActivity.this, LoginActivity.class);
@@ -144,5 +182,41 @@ public class CategoryActivity extends AppCompatActivity
             }
         }
         return -1;
+    }
+
+    private void transactToQuestion(int position) {
+        int previousID = mQuestionId;
+        mQuestionId = position;
+        mQuestion = Category.mCategoryList.get(mCategoryId).getmQuestionList().get(mQuestionId);
+        QuestionFragment questionFragment = new QuestionFragment();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        questionFragment.setmCategoryId(mCategoryId);
+        questionFragment.setmQuestionId(position);
+        questionFragment.setmSelectedQuestion(mQuestion);
+        questionFragment.setmHandler(mHandler);
+
+        mTimer = new QuestionTimer(this, mQuestion, mHandler);
+
+        questionFragment.setmTimer(mTimer);
+
+        ft.replace(R.id.fragment_container, questionFragment, "question_replaced");
+
+        if (mQuestionChanged)
+            ft.addToBackStack("question_replaced");
+
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
+    }
+
+    public void transactToQuestionList(int position) {
+        mCategoryId = position;
+        mQuestionList = Category.mCategoryList.get(mCategoryId).getmQuestionList();
+        PointsFragment pointsFragment = new PointsFragment();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        pointsFragment.setmCategoryId(position);
+        ft.replace(R.id.fragment_container, pointsFragment, "list_replaced");
+        ft.addToBackStack("list_replaced");
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
     }
 }

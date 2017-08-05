@@ -2,7 +2,6 @@ package com.assignment.quizapplication2;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,7 +41,6 @@ public class QuestionTimer extends Timer {
         boolean running = getmRunning();
         String time = String.format("00:%02d", seconds);
         if (running && seconds > 0) {
-            Log.d("sec", String.valueOf(seconds));
             mRemainingTimeView.setText(time);
             decrementmSeconds();
             mSelectedQuestion.decrementmRemainingTime();
