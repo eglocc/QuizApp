@@ -7,10 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class LoginActivity extends AppCompatActivity {
+import static com.assignment.quizapplication2.QuizConstants.FROM_CATEGORY_TO_LOGIN;
+import static com.assignment.quizapplication2.QuizConstants.NICKNAME;
 
-    public static final String USER = "user";
-    private static final String NICKNAME = "nickname";
+public class LoginActivity extends AppCompatActivity {
 
     static User sUser = new User();
 
@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mBundle = getIntent().getExtras();
         if (mBundle != null) {
-            mComingFromCategoryActivity = mBundle.getBoolean(CategoryActivity.FROM_CATEGORY_TO_LOGIN);
+            mComingFromCategoryActivity = mBundle.getBoolean(FROM_CATEGORY_TO_LOGIN);
             mEditText.setText(sUser.getmNickname());
         }
 

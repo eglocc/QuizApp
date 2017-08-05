@@ -10,21 +10,13 @@ import android.view.View;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.assignment.quizapplication2.LoginActivity.sUser;
 
 public class CategoryActivity extends AppCompatActivity
-        implements CategoryFragment.CategoryListListener, PointsFragment.QuestionListListener, QuestionFragment.AnswerListener {
-
-    public static final String FROM_CATEGORY_TO_LOGIN = "from_category_to_login";
-    public static final String CLICKED_CATEGORY_POSITION = "clicked_category_position";
-    public static final String CLICKED_QUESTION_POSITION = "clicked_question_position";
-    public static final String CLICKED_QUESTION = "clicked_question";
-    public static final String QUESTION_LIST = "question_list";
-    public static final String CATEGORY_CLICKED = "category_clicked?";
-    public static final String QUESTION_ON = "question_on?";
-    public static final String POINTS_ON = "points_on?";
-    public static final String CATEGORY_COMPLETED_HAS_BEEN_SHOWED = "category_completed_has_been_showed";
+        implements CategoryFragment.CategoryListListener, PointsFragment.QuestionListListener, QuestionFragment.AnswerListener,
+        QuizConstants {
 
     private View mFragmentContainer;
     private Bundle mBundle;
@@ -129,6 +121,10 @@ public class CategoryActivity extends AppCompatActivity
             mFragmentContainer.setVisibility(View.VISIBLE);
             transactToQuestionList(position);
         } else {
+            int oldCategoryId = mBundle.getInt(CLICKED_CATEGORY_POSITION);
+            boolean categoryChanged = oldCategoryId != position;
+            if (categoryChanged)
+                QuestionActivity.sQuizFinished = false;
             Intent intent = new Intent(this, PointsActivity.class);
             mBundle.putInt(CLICKED_CATEGORY_POSITION, position);
             intent.putExtras(mBundle);
@@ -173,11 +169,11 @@ public class CategoryActivity extends AppCompatActivity
     /**
      * Updates FrameLayout according to forward parameter
      *
-     * @param forward: true for next question / false for previous question
+     * @param forward: true for next question / false for backpress
      */
     public void updateFrameLayout(boolean forward) {
         if (forward) {
-            int unAnsweredQuestionIndex = findUnAnsweredQuestion(mQuestionId);
+            int unAnsweredQuestionIndex = findUnAnsweredQuestion(mQuestionId, mQuestionList);
             if (unAnsweredQuestionIndex != -1) {
                 mQuestionId = unAnsweredQuestionIndex;
                 transactToQuestion(mQuestionId);
@@ -198,20 +194,6 @@ public class CategoryActivity extends AppCompatActivity
                 transactToQuestionList(mCategoryId);
             }
         }
-    }
-
-    private int findUnAnsweredQuestion(int id) {
-        for (int i = mQuestionId; i < mQuestionList.size(); i++) {
-            Question q = mQuestionList.get(i);
-            if (!q.getmHasBeenAnswered())
-                return q.getmQuestionId();
-        }
-        for (int i = mQuestionId; i >= 0; i--) {
-            Question q = mQuestionList.get(i);
-            if (!q.getmHasBeenAnswered())
-                return q.getmQuestionId();
-        }
-        return -1;
     }
 
     /**
@@ -265,5 +247,27 @@ public class CategoryActivity extends AppCompatActivity
         Intent intent = new Intent(this, QuizFinishActivity.class);
         intent.putExtras(mBundle);
         startActivityForResult(intent, 1);
+    }
+
+    /**
+     * An algorithm for finding unanswered question
+     *
+     * @param id   should be current question id
+     * @param list should be question list which is iterated
+     * @return
+     */
+    @Override
+    public int findUnAnsweredQuestion(int id, List<Question> list) {
+        for (int i = id; i < list.size(); i++) {
+            Question q = list.get(i);
+            if (!q.getmHasBeenAnswered())
+                return q.getmQuestionId();
+        }
+        for (int i = id; i >= 0; i--) {
+            Question q = list.get(i);
+            if (!q.getmHasBeenAnswered())
+                return q.getmQuestionId();
+        }
+        return -1;
     }
 }

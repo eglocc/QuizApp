@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import static com.assignment.quizapplication2.LoginActivity.sUser;
+import static com.assignment.quizapplication2.QuizConstants.CLICKED_CATEGORY_POSITION;
+import static com.assignment.quizapplication2.QuizConstants.POINTS_ON;
+import static com.assignment.quizapplication2.QuizConstants.QUESTION_ON;
 
 public class QuizFinishActivity extends AppCompatActivity {
 
@@ -24,7 +27,7 @@ public class QuizFinishActivity extends AppCompatActivity {
 
         mBundle = getIntent().getExtras();
 
-        int finishedCategoryPosition = mBundle.getInt(CategoryActivity.CLICKED_CATEGORY_POSITION);
+        int finishedCategoryPosition = mBundle.getInt(CLICKED_CATEGORY_POSITION);
         mCategoryName = Category.mCategoryList.get(finishedCategoryPosition).toString();
 
         mNicknameView = (TextView) findViewById(R.id.nickname);
@@ -40,10 +43,8 @@ public class QuizFinishActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent returnIntent = new Intent();
-        //intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        mBundle.putBoolean(CategoryActivity.QUESTION_ON, false);
-        mBundle.putBoolean(CategoryActivity.POINTS_ON, true);
-        mBundle.putInt(CategoryActivity.CLICKED_QUESTION_POSITION, 0);
+        mBundle.putBoolean(QUESTION_ON, false);
+        mBundle.putBoolean(POINTS_ON, true);
         returnIntent.putExtras(mBundle);
         setResult(Activity.RESULT_OK, returnIntent);
         finish();

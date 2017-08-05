@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-public class PointsActivity extends AppCompatActivity implements PointsFragment.QuestionListListener {
+import static com.assignment.quizapplication2.QuizConstants.CLICKED_CATEGORY_POSITION;
+import static com.assignment.quizapplication2.QuizConstants.CLICKED_QUESTION_POSITION;
 
-    public static final String CLICKED_QUESTION_POSITION = "clicked_question_position";
-    //public static final String SELECTED_QUESTION = "selected_question";
+public class PointsActivity extends AppCompatActivity implements PointsFragment.QuestionListListener {
 
     private PointsFragment mPointsFragment;
     private Bundle mBundle;
@@ -23,14 +23,14 @@ public class PointsActivity extends AppCompatActivity implements PointsFragment.
         mBundle = getIntent().getExtras();
 
         mPointsFragment = (PointsFragment) getFragmentManager().findFragmentById(R.id.points_fragment);
-        mClickedCategory = mBundle.getInt(CategoryActivity.CLICKED_CATEGORY_POSITION);
+        mClickedCategory = mBundle.getInt(CLICKED_CATEGORY_POSITION);
         mPointsFragment.setmCategoryId(mClickedCategory);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(PointsActivity.this, CategoryActivity.class);
+        Intent intent = new Intent(this, CategoryActivity.class);
         intent.putExtras(mBundle);
         startActivity(intent);
     }

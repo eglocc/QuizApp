@@ -30,6 +30,7 @@ public class QuestionFragment extends Fragment {
     private TextView mNicknameView;
     private TextView mQuestionTextView;
     private ListView mAnswerListView;
+    private TextView mPointsView;
 
     private Question mSelectedQuestion;
     private int mCategoryId;
@@ -73,6 +74,7 @@ public class QuestionFragment extends Fragment {
             mRemainingTimeView = (TextView) view.findViewById(R.id.remaining_time);
             mRemainingTimeLabel = (TextView) view.findViewById(R.id.remaining_time_label);
             mScoreView = (TextView) view.findViewById(R.id.score);
+            mPointsView = (TextView) view.findViewById(R.id.points); // might be null, exists only for layout-large
 
             mNicknameView = (TextView) view.findViewById(R.id.nickname);
             mQuestionTextView = (TextView) view.findViewById(R.id.question_text);
@@ -84,6 +86,10 @@ public class QuestionFragment extends Fragment {
             mTimer.setmScoreView(mScoreView);
             mTimer.setmAnswerListView(mAnswerListView);
             mTimer.setmSelectedQuestion(mSelectedQuestion);
+
+            //check if this view exists in current layout
+            if (mPointsView != null)
+                mPointsView.setText(String.valueOf(mSelectedQuestion.getmScore()));
 
             mNicknameView.setText(sUser.getmNickname());
             mScoreView.setText(String.valueOf(sUser.getmScore()));

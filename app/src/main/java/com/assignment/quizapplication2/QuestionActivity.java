@@ -1,5 +1,6 @@
 package com.assignment.quizapplication2;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +12,9 @@ import java.util.List;
 
 import static com.assignment.quizapplication2.LoginActivity.sUser;
 
-public class QuestionActivity extends AppCompatActivity implements QuestionFragment.AnswerListener {
+public class QuestionActivity extends AppCompatActivity implements QuestionFragment.AnswerListener, QuizConstants {
+
+    public static boolean sQuizFinished;
 
     private Bundle mBundle;
     private QuestionFragment mQuestionFragment;
@@ -33,8 +36,8 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         mQuestionFragment = (QuestionFragment) getFragmentManager().findFragmentById(R.id.question_fragment);
 
         //Sets the question accordingly
-        mCategoryId = mBundle.getInt(CategoryActivity.CLICKED_CATEGORY_POSITION);
-        mQuestionId = mBundle.getInt(PointsActivity.CLICKED_QUESTION_POSITION);
+        mCategoryId = mBundle.getInt(CLICKED_CATEGORY_POSITION);
+        mQuestionId = mBundle.getInt(CLICKED_QUESTION_POSITION);
         mQuestionList = Category.mCategoryList.get(mCategoryId).getmQuestionList();
         mQuestion = mQuestionList.get(mQuestionId);
         mTimer = new QuestionTimer(this, mHandler);
@@ -46,15 +49,27 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         mQuestionFragment.setmHandler(mHandler);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                goToPointsActivity();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        Intent intent = new Intent(QuestionActivity.this, PointsActivity.class);
-        mTimer.setmRunning(false);
-        mHandler.removeCallbacks(mTimer);
-        intent.putExtras(mBundle);
-        startActivity(intent);
+        if (sQuizFinished) {
+            if (mQuestionId > 0) {
+                mQuestionId--;
+                selfIntent();
+            } else
+                goToPointsActivity();
+        }
     }
 
     @Override
@@ -81,37 +96,56 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         goNext();
     }
 
+
     public void goNext() {
-        int quizFinished = isAllQuestionsAnswered(mQuestionId);
-        if (quizFinished != -1) {
+        int unAnsweredQuestionIndex = findUnAnsweredQuestion(mQuestionId, mQuestionList);
 
-            if (mQuestionId < mQuestionList.size() - 1)
-                mQuestionId++;
-            else
-                mQuestionId = quizFinished;
-
-            mBundle.putInt(PointsActivity.CLICKED_QUESTION_POSITION, mQuestionId);
-            Intent intent = new Intent(QuestionActivity.this, QuestionActivity.class);
-            intent.putExtras(mBundle);
-            startActivity(intent);
+        if (unAnsweredQuestionIndex != -1) {
+            mQuestionId = unAnsweredQuestionIndex;
+            selfIntent();
         } else {
+            sQuizFinished = true;
             goToQuizFinishActivity();
         }
     }
 
-    private int isAllQuestionsAnswered(int id) {
-        for (Question q : mQuestionList) {
-            if (!q.getmHasBeenAnswered() && q.getmRemainingTime() > 0) {
-                id = q.getmQuestionId();
-                return id;
-            }
-        }
-        return -1;
+    public void selfIntent() {
+        mBundle.putInt(CLICKED_QUESTION_POSITION, mQuestionId);
+        Intent intent = new Intent(QuestionActivity.this, QuestionActivity.class);
+        intent.putExtras(mBundle);
+        startActivity(intent);
     }
 
     private void goToQuizFinishActivity() {
         Intent intent = new Intent(this, QuizFinishActivity.class);
         intent.putExtras(mBundle);
+        startActivityForResult(intent, 1);
+    }
+
+    private void goToCategoryActivity() {
+        Intent intent = new Intent(this, CategoryActivity.class);
+        intent.putExtras(mBundle);
         startActivity(intent);
+    }
+
+    private void goToPointsActivity() {
+        Intent intent = new Intent(this, PointsActivity.class);
+        intent.putExtras(mBundle);
+        startActivity(intent);
+    }
+
+    @Override
+    public int findUnAnsweredQuestion(int id, List<Question> list) {
+        for (int i = id; i < list.size(); i++) {
+            Question q = list.get(i);
+            if (!q.getmHasBeenAnswered())
+                return q.getmQuestionId();
+        }
+        for (int i = id; i >= 0; i--) {
+            Question q = list.get(i);
+            if (!q.getmHasBeenAnswered())
+                return q.getmQuestionId();
+        }
+        return -1;
     }
 }
