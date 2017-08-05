@@ -1,5 +1,6 @@
 package com.assignment.quizapplication2;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import static com.assignment.quizapplication2.LoginActivity.sUser;
 public class CategoryActivity extends AppCompatActivity
         implements CategoryFragment.CategoryListListener, PointsFragment.QuestionListListener, QuestionFragment.AnswerListener {
 
+    public static final String FROM_CATEGORY_TO_LOGIN = "from_category_to_login";
     public static final String CLICKED_CATEGORY_POSITION = "clicked_category_position";
     public static final String CLICKED_QUESTION_POSITION = "clicked_question_position";
     public static final String CLICKED_QUESTION = "clicked_question";
@@ -22,6 +24,7 @@ public class CategoryActivity extends AppCompatActivity
     public static final String CATEGORY_CLICKED = "category_clicked?";
     public static final String QUESTION_ON = "question_on?";
     public static final String POINTS_ON = "points_on?";
+    public static final String CATEGORY_COMPLETED_HAS_BEEN_SHOWED = "category_completed_has_been_showed";
 
     private View mFragmentContainer;
     private Bundle mBundle;
@@ -34,6 +37,7 @@ public class CategoryActivity extends AppCompatActivity
     private boolean mCategoryClicked;
     private boolean mQuestionFragmentIsOn;
     private boolean mPointsFragmentIsOn;
+    private boolean mCategoryCompletedHasBeenShowed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,12 @@ public class CategoryActivity extends AppCompatActivity
         }
 
         if (savedInstanceState == null) {
-            mBundle = new Bundle();
+            mBundle = getIntent().getExtras();
+            if (mBundle != null) {
+                mCategoryCompletedHasBeenShowed = mBundle.getBoolean(CATEGORY_COMPLETED_HAS_BEEN_SHOWED);
+            } else {
+                mBundle = new Bundle();
+            }
         } else {
             mBundle = savedInstanceState;
             mQuestion = mBundle.getParcelable(CLICKED_QUESTION);
@@ -57,6 +66,7 @@ public class CategoryActivity extends AppCompatActivity
             mCategoryClicked = mBundle.getBoolean(CATEGORY_CLICKED);
             mQuestionFragmentIsOn = mBundle.getBoolean(QUESTION_ON);
             mPointsFragmentIsOn = mBundle.getBoolean(POINTS_ON);
+            mCategoryCompletedHasBeenShowed = mBundle.getBoolean(CATEGORY_COMPLETED_HAS_BEEN_SHOWED);
 
             if (mCategoryClicked) {
                 if (mPointsFragmentIsOn)
@@ -65,6 +75,23 @@ public class CategoryActivity extends AppCompatActivity
                     transactToQuestion(mQuestionId);
             } else {
                 mFragmentContainer.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                mBundle = data.getExtras();
+                PointsActivity.displayBundleOnLog(mBundle);
+                mQuestionFragmentIsOn = mBundle.getBoolean(QUESTION_ON);
+                mPointsFragmentIsOn = mBundle.getBoolean(POINTS_ON);
+                mQuestionId = mBundle.getInt(CLICKED_QUESTION_POSITION);
+                updateFrameLayout(false);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+
             }
         }
     }
@@ -94,10 +121,11 @@ public class CategoryActivity extends AppCompatActivity
 
     @Override
     public void categoryClicked(int position) {
-        mCategoryClicked = true;
-        mPointsFragmentIsOn = true;
         if (mFragmentContainer != null) {
             mCategoryClicked = true;
+            mPointsFragmentIsOn = true;
+            mQuestionFragmentIsOn = false;
+            mBundle.putInt(CLICKED_CATEGORY_POSITION, position);
             mFragmentContainer.setVisibility(View.VISIBLE);
             transactToQuestionList(position);
         } else {
@@ -117,24 +145,27 @@ public class CategoryActivity extends AppCompatActivity
 
     @Override
     public void answerClicked(View v, String clickedAnswer, boolean answerCorrect) {
-            mQuestion.setmHasBeenAnswered(true);
-            mQuestion.setmClickedAnswer(clickedAnswer);
 
-            ListView answers = (ListView) findViewById(R.id.answer_list_view);
-            int answer_button_count = answers.getChildCount();
-            for (int i = 0; i < answer_button_count; i++) {
-                answers.getChildAt(i).setOnClickListener(null);
-            }
+        //might be get NullPointerException
 
-            if (answerCorrect) {
-                mQuestion.setmAnsweredCorrectly(true);
-                sUser.answeredCorrectly(mQuestion.getmScore());
-                v.setBackground(getDrawable(R.drawable.rounded_button_green));
-            } else {
-                mQuestion.setmAnsweredWrong(true);
-                sUser.answeredWrong(mQuestion.getmScore());
-                v.setBackground(getDrawable(R.drawable.rounded_button_red));
-            }
+        mQuestion.setmHasBeenAnswered(true);
+        mQuestion.setmClickedAnswer(clickedAnswer);
+
+        ListView answers = (ListView) findViewById(R.id.answer_list_view);
+        int answer_button_count = answers.getChildCount();
+        for (int i = 0; i < answer_button_count; i++) {
+            answers.getChildAt(i).setOnClickListener(null);
+        }
+
+        if (answerCorrect) {
+            mQuestion.setmAnsweredCorrectly(true);
+            sUser.answeredCorrectly(mQuestion.getmScore());
+            v.setBackground(getDrawable(R.drawable.rounded_button_green));
+        } else {
+            mQuestion.setmAnsweredWrong(true);
+            sUser.answeredWrong(mQuestion.getmScore());
+            v.setBackground(getDrawable(R.drawable.rounded_button_red));
+        }
 
         updateFrameLayout(true);
     }
@@ -167,14 +198,27 @@ public class CategoryActivity extends AppCompatActivity
                 }
             }
         } else {
-            //should be CongratsActivity
-            backToLoginActivity();
+            if (!mCategoryCompletedHasBeenShowed) {
+                mCategoryCompletedHasBeenShowed = true;
+                mBundle.putBoolean(CATEGORY_COMPLETED_HAS_BEEN_SHOWED, mCategoryCompletedHasBeenShowed);
+                goToQuizFinishActivity();
+            } else {
+                if (mQuestionId > 0) {
+                    mQuestionId--;
+                    transactToQuestion(mQuestionId);
+                } else {
+                    transactToQuestionList(mCategoryId);
+                    mQuestionFragmentIsOn = false;
+                    mPointsFragmentIsOn = true;
+                }
+            }
         }
     }
 
 
     /**
      * An algorithm for finding out whether all questions is answered or not
+     *
      * @param id (!)might be removed
      * @return
      */
@@ -190,6 +234,7 @@ public class CategoryActivity extends AppCompatActivity
 
     /**
      * Transacts the QuestionFragment according to position parameter
+     *
      * @param position should be question id
      */
     private void transactToQuestion(int position) {
@@ -202,20 +247,17 @@ public class CategoryActivity extends AppCompatActivity
         questionFragment.setmHandler(mHandler);
 
         mTimer = new QuestionTimer(this, mHandler);
-
         questionFragment.setmTimer(mTimer);
 
         ft.replace(R.id.fragment_container, questionFragment, "visible_fragment");
-
-        //if (mQuestionChanged)
         ft.addToBackStack(null);
-
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
     }
 
     /**
      * Transacts to PointsFragment according to position
+     *
      * @param position should be category id
      */
     public void transactToQuestionList(int position) {
@@ -231,8 +273,15 @@ public class CategoryActivity extends AppCompatActivity
     }
 
     private void backToLoginActivity() {
-        Intent intent = new Intent(CategoryActivity.this, LoginActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
+        mBundle.putBoolean(FROM_CATEGORY_TO_LOGIN, true);
         intent.putExtras(mBundle);
         startActivity(intent);
+    }
+
+    private void goToQuizFinishActivity() {
+        Intent intent = new Intent(this, QuizFinishActivity.class);
+        intent.putExtras(mBundle);
+        startActivityForResult(intent, 1);
     }
 }

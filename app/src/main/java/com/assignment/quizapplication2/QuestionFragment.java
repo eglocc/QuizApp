@@ -94,14 +94,14 @@ public class QuestionFragment extends Fragment {
             if (mSelectedQuestion.getmHasBeenAnswered()) {
                 mRemainingTimeLabel.setVisibility(View.GONE);
                 if (mSelectedQuestion.getmAnsweredCorrectly()) {
-                    mRemainingTimeView.setText("Correct");
+                    mRemainingTimeView.setText(getString(R.string.correct));
                     mRemainingTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_green));
                 } else if (mSelectedQuestion.getmAnsweredWrong()) {
-                    mRemainingTimeView.setText("Wrong");
+                    mRemainingTimeView.setText(getString(R.string.wrong));
                     mRemainingTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_red));
                 } else if (mSelectedQuestion.getmRanOutOfTime()) {
                     mRemainingTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_red));
-                    mRemainingTimeView.setText(getResources().getString(R.string.times_up));
+                    mRemainingTimeView.setText(getString(R.string.times_up));
                 }
             }
         }

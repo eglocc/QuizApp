@@ -2,7 +2,6 @@ package com.assignment.quizapplication2;
 
 import android.content.Context;
 import android.os.Handler;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -59,14 +58,26 @@ public class QuestionTimer extends Timer {
                 sUser.answeredWrong(mSelectedQuestion.getmScore());
                 mScoreView.setText(String.valueOf(sUser.getmScore()));
             }
-            mRemainingTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_red));
+
+
+            //Here is the part where the view changes when time's up. Can be modified!
+
+            /*mRemainingTimeView.setBackground(mContext.getDrawable(R.drawable.score_button_blue));
             mRemainingTimeView.setText(mContext.getResources().getString(R.string.times_up));
             Button button = (Button) mAnswerListView.findViewWithTag("true_answer");
             if (button != null)
-                button.setBackground(mContext.getDrawable(R.drawable.rounded_button_green));
+                button.setBackground(mContext.getDrawable(R.drawable.rounded_button_green));*/
+
+            //
+
+
             mSelectedQuestion.setmRanOutOfTime(true);
             mSelectedQuestion.setmHasBeenAnswered(true);
             setmRunning(false);
+            if (mContext instanceof QuestionActivity)
+                ((QuestionActivity) mContext).goNext();
+            else if (mContext instanceof CategoryActivity)
+                ((CategoryActivity) mContext).updateFrameLayout(true);
             mHandler.removeCallbacks(this);
         }
     }

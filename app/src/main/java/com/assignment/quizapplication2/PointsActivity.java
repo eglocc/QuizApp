@@ -40,14 +40,14 @@ public class PointsActivity extends AppCompatActivity implements PointsFragment.
         Intent intent = new Intent(PointsActivity.this, QuestionActivity.class);
         mBundle.putInt(CLICKED_QUESTION_POSITION, position);
         intent.putExtras(mBundle);
-        //displayBundleOnLog();
+        //displayBundleOnLog(mBundle);
         startActivity(intent);
     }
 
     //For debugging purposes
-    private void displayBundleOnLog() {
-        for (String s : mBundle.keySet()) {
-            Log.d(s, mBundle.get(s).toString());
+    public static void displayBundleOnLog(Bundle b) {
+        for (String s : b.keySet()) {
+            Log.d(s, b.get(s).toString());
         }
     }
 }

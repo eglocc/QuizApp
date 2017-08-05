@@ -12,9 +12,13 @@ public class LoginActivity extends AppCompatActivity {
     public static final String USER = "user";
     private static final String NICKNAME = "nickname";
 
+    static User sUser = new User();
+
     private Button mStartButton;
     private EditText mEditText;
-    static User sUser = new User();
+
+    private Bundle mBundle;
+    private boolean mComingFromCategoryActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +28,21 @@ public class LoginActivity extends AppCompatActivity {
         mEditText = (EditText) findViewById(R.id.set_nickname);
         mStartButton = (Button) findViewById(R.id.enter_nickname);
 
+        mBundle = getIntent().getExtras();
+        if (mBundle != null) {
+            mComingFromCategoryActivity = mBundle.getBoolean(CategoryActivity.FROM_CATEGORY_TO_LOGIN);
+            mEditText.setText(sUser.getmNickname());
+        }
+
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String nickname = mEditText.getText().toString();
                 sUser.setmNickname(nickname);
-                Intent intent = new Intent(LoginActivity.this, CategoryActivity.class);
-                startActivity(intent);
+                Intent i = new Intent(LoginActivity.this, CategoryActivity.class);
+                if (mComingFromCategoryActivity)
+                    i.putExtras(mBundle);
+                startActivity(i);
             }
         });
 

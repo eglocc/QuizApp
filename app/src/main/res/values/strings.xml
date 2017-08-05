@@ -13,4 +13,8 @@
     <string name="question">Question</string>
     <string name="times_up">Time\'s Up!</string>
     <string name="categories">Categorıes</string>
+    <string name="correct">Correct!</string>
+    <string name="wrong">Wrong!</string>
+    <string name="category">Category: </string>
+    <string name="category_completed">Category Completed!</string>
 </resources>

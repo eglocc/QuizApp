@@ -95,9 +95,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
             intent.putExtras(mBundle);
             startActivity(intent);
         } else {
-            Intent intent = new Intent(QuestionActivity.this, LoginActivity.class);
-            intent.putExtras(mBundle);
-            startActivity(intent);
+            goToQuizFinishActivity();
         }
     }
 
@@ -109,5 +107,11 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
             }
         }
         return -1;
+    }
+
+    private void goToQuizFinishActivity() {
+        Intent intent = new Intent(this, QuizFinishActivity.class);
+        intent.putExtras(mBundle);
+        startActivity(intent);
     }
 }
