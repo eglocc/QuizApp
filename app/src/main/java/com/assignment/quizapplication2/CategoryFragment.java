@@ -29,7 +29,7 @@ public class CategoryFragment extends ListFragment {
     private CategoryListListener mListener;
 
     private void loadCategoryNames(final LayoutInflater inflater) {
-        Query queryRef = mDatabase.child("categories").orderByKey();
+        Query queryRef = mDatabase.child("categories").orderByChild("mCategoryName");
         queryRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

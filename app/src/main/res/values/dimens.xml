@@ -13,4 +13,5 @@
     <dimen name="rounded_button_radius">1000dp</dimen>
     <dimen name="button_border">3dp</dimen>
     <dimen name="space_from_edges">12dp</dimen>
+    <dimen name="headline_text_size">28sp</dimen>
 </resources>

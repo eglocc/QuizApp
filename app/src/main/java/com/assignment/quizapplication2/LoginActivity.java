@@ -14,6 +14,8 @@ public class LoginActivity extends AppCompatActivity {
 
     static User sUser = new User();
 
+    private Button mFireBasePanelButton;
+
     private Button mStartButton;
     private EditText mEditText;
 
@@ -27,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mEditText = (EditText) findViewById(R.id.set_nickname);
         mStartButton = (Button) findViewById(R.id.enter_nickname);
+        mFireBasePanelButton = (Button) findViewById(R.id.firebase);
 
         mBundle = getIntent().getExtras();
         if (mBundle != null) {
@@ -45,6 +48,21 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        if (mFireBasePanelButton != null) {
+            if (sUser.getmNickname().equals("eGlocc")) {
+                mFireBasePanelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(LoginActivity.this, FirebaseActivity.class);
+                        startActivity(intent);
+
+                    }
+                });
+            }
+
+        }
 
 
         if (savedInstanceState != null) {

@@ -9,8 +9,7 @@ import java.util.Map;
 
 public class Question implements Parcelable, Comparable {
 
-    static final int mTimeLimit = 15;
-    static final int mNumberOfAnswers = 4;
+    private static final int mTimeLimit = 15;
 
     private String mCategory;
     private String mText;
@@ -24,12 +23,30 @@ public class Question implements Parcelable, Comparable {
     private boolean mRanOutOfTime;
     private String mClickedAnswer;
 
+
+    public Question(String text, int score, String category, HashMap<String, Boolean> answers, int id) {
+        this.mText = text;
+        this.mScore = score;
+        this.mCategory = category;
+        this.mAnswerMap = answers;
+        this.mRemainingTime = mTimeLimit;
+        this.mQuestionId = id;
+    }
+
     public Question(String text, int score, String category, HashMap<String, Boolean> answers) {
         this.mText = text;
         this.mScore = score;
         this.mCategory = category;
         this.mAnswerMap = answers;
         this.mRemainingTime = mTimeLimit;
+    }
+
+    public Question(String text, int score, String category, int id) {
+        this.mText = text;
+        this.mScore = score;
+        this.mCategory = category;
+        this.mRemainingTime = mTimeLimit;
+        this.mQuestionId = id;
     }
 
     private Question() {

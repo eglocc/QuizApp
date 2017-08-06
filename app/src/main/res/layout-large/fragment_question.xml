@@ -118,14 +118,14 @@
             android:fontFamily="sans-serif-medium" />
 
         <!-- might change -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@android:color/black"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp" />
-
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/black"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp" />
 
     <RelativeLayout
         android:layout_width="wrap_content"

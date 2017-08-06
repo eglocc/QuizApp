@@ -28,4 +28,10 @@
         android:text="@string/enter_nickname"
         />
 
+    <Button
+        android:id="@+id/firebase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Push New Category" />
+
 </LinearLayout>

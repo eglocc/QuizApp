@@ -22,7 +22,8 @@
         <activity android:name=".CategoryActivity" />
         <activity android:name=".PointsActivity" />
         <activity android:name=".QuestionActivity" />
-        <activity android:name=".QuizFinishActivity"></activity>
+        <activity android:name=".QuizFinishActivity" />
+        <activity android:name=".FirebaseActivity"></activity>
     </application>
 
 </manifest>

@@ -12,7 +12,9 @@ public class Category {
     private Category() {
     }
 
-    ;
+    public Category(String name) {
+        this.mCategoryName = name;
+    }
 
     public Category(String name, ArrayList<Question> questionList) {
         this.mCategoryName = name;
