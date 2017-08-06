@@ -54,6 +54,7 @@ public class Question implements Parcelable, Comparable {
 
     private Question(Parcel source) {
         this.mText = source.readString();
+        this.mClickedAnswer = source.readString();
         this.mQuestionId = source.readInt();
         this.mCategory = source.readString();
         this.mRemainingTime = source.readInt();
@@ -182,6 +183,7 @@ public class Question implements Parcelable, Comparable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mText);
+        dest.writeString(mClickedAnswer);
         dest.writeInt(mQuestionId);
         dest.writeInt(mRemainingTime);
         dest.writeByte((byte) (mAnsweredCorrectly ? 1 : 0));
