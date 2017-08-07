@@ -13,7 +13,7 @@ public class PointsActivity extends AppCompatActivity implements PointsFragment.
     private PointsFragment mPointsFragment;
     private Bundle mBundle;
 
-    int mClickedCategory;
+    private int mClickedCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

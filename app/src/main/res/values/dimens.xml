@@ -14,4 +14,5 @@
     <dimen name="button_border">3dp</dimen>
     <dimen name="space_from_edges">12dp</dimen>
     <dimen name="headline_text_size">28sp</dimen>
+    <dimen name="answer_button_padding">16dp</dimen>
 </resources>

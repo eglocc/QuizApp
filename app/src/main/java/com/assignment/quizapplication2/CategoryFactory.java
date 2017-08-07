@@ -1,7 +1,6 @@
 package com.assignment.quizapplication2;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 
@@ -31,9 +30,6 @@ class CategoryFactory {
         for (int i = 0; i < questionTexts.length; i++) {
             questionList.add(new Question(questionTexts[i], scores[i], c.toString(), i));
         }
-
-        //actually unnecessary
-        Collections.sort(questionList);
 
         return questionList;
     }

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval"
-    android:useLevel="false">
+    android:useLevel="true">
     <solid android:color="@android:color/transparent" />
-    <corners android:radius="@dimen/rounded_button_radius" />
     <stroke android:width="@dimen/button_border" />
     <padding
-        android:bottom="@dimen/space_between_views"
+        android:bottom="@dimen/space_between_views_half"
         android:left="@dimen/space_between_views"
         android:right="@dimen/space_between_views"
         android:top="@dimen/space_between_views" />
