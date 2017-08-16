@@ -64,11 +64,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
     @Override
     public void onBackPressed() {
         if (sQuizFinished) {
-            if (mQuestionId > 0) {
-                mQuestionId--;
-                selfIntent();
-            } else
-                goToPointsActivity();
+            goToPointsActivity();
         }
     }
 

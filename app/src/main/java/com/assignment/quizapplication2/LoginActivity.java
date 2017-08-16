@@ -12,7 +12,7 @@ import static com.assignment.quizapplication2.QuizConstants.NICKNAME;
 
 public class LoginActivity extends AppCompatActivity {
 
-    static User sUser = new User();
+    static User sUser;
 
     private Button mFireBasePanelButton;
 

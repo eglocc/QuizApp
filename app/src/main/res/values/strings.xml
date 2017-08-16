@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">QuizApplication 2</string>
     <string name="remaining_time">Remaining Time</string>
-    <string name="nickname">Nickname: </string>
+    <string name="nickname">Nickname </string>
     <string name="score">Score: </string>
     <string name="total_time">Total Time: </string>
     <string name="next">Next</string>
@@ -18,4 +18,12 @@
     <string name="category">Category: </string>
     <string name="category_completed">Category Completed!</string>
     <string name="points">Points: </string>
+
+    <string name="auth_failed">Authentication Failed!</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="create_account">Create Account</string>
+    <string name="sign_in">Sıgn In</string>
+    <string name="loading">Loading...</string>
+    <string name="already_signed_up">You have already signed up!</string>
 </resources>

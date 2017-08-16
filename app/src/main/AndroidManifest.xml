@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/quiz_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,7 +23,9 @@
         <activity android:name=".PointsActivity" />
         <activity android:name=".QuestionActivity" />
         <activity android:name=".QuizFinishActivity" />
-        <activity android:name=".FirebaseActivity"></activity>
+        <activity android:name=".FirebaseActivity" />
+        <activity android:name=".BaseActivity" />
+        <activity android:name=".OrderUsersActivtiy"></activity>
     </application>
 
 </manifest>
