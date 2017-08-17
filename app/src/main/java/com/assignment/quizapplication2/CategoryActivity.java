@@ -13,7 +13,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.assignment.quizapplication2.LoginActivity.sUser;
+import static com.assignment.quizapplication2.SignInActivity.sUser;
 
 public class CategoryActivity extends AppCompatActivity
         implements AdapterView.OnItemClickListener, PointsFragment.QuestionListListener, QuestionFragment.AnswerListener,
@@ -214,13 +214,6 @@ public class CategoryActivity extends AppCompatActivity
         ft.addToBackStack(null);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
-    }
-
-    private void backToLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        mBundle.putBoolean(FROM_CATEGORY_TO_LOGIN, true);
-        intent.putExtras(mBundle);
-        startActivity(intent);
     }
 
     private void backToMainActivity() {

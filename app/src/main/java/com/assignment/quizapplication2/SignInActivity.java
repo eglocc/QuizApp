@@ -18,13 +18,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.assignment.quizapplication2.LoginActivity.sUser;
 
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
@@ -32,6 +29,8 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     private static final String msOnAuthStateChangedSignedIn = "onAuthStateChanged:signed_in:";
     private static final String msOnAuthStateChangedSignedOut = "onAuthStateChanged:signed_out";
+
+    static User sUser;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -41,6 +40,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private EditText mNameField;
     private EditText mSurnameField;
     private EditText mNicknameField;
+    private EditText mPasswordField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         mNameField = (EditText) findViewById(R.id.set_name);
         mSurnameField = (EditText) findViewById(R.id.set_surname);
         mNicknameField = (EditText) findViewById(R.id.set_nickname);
+        mPasswordField = (EditText) findViewById(R.id.set_password);
         findViewById(R.id.create_account_button).setOnClickListener(this);
         findViewById(R.id.sign_in_button).setOnClickListener(this);
 
@@ -102,10 +103,14 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                 if (task.isSuccessful()) {
                     FirebaseUser user = mAuth.getCurrentUser();
                     Map<String, Object> users = new HashMap<>();
-                    User customUser = new User(mNameField.getText().toString() + " " + mSurnameField.getText().toString(), mNicknameField.getText().toString());
+                    String nickname = mNicknameField.getText().toString();
+                    if (TextUtils.isEmpty(nickname)) {
+                        nickname = "Anonymous";
+                    }
+                    User customUser = new User(mNameField.getText().toString() + " " + mSurnameField.getText().toString(), nickname);
                     users.put(user.getUid(), customUser);
                     mUsersRef.updateChildren(users);
-                    sUser = customUser;
+                    sUser = new User(customUser);
                     updateUI(user);
                 } else {
                     Toast.makeText(SignInActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
@@ -128,13 +133,11 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     FirebaseUser user = mAuth.getCurrentUser();
-                    Query query = mUsersRef.orderByKey().equalTo(user.getUid());
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    DatabaseReference userRef = mUsersRef.child(user.getUid());
+                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot != null || dataSnapshot.getValue() != null) {
-                                sUser = dataSnapshot.getValue(User.class);
-                            }
+                            sUser = new User(dataSnapshot.getValue(User.class));
                         }
 
                         @Override
@@ -160,10 +163,10 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.create_account_button:
-                createAccount(mNameField.getText().toString().toLowerCase() + mSurnameField.getText().toString().toLowerCase() + "@ergizgizer.com", mNicknameField.getText().toString());
+                createAccount(mNameField.getText().toString().toLowerCase() + mSurnameField.getText().toString().toLowerCase() + "@ergizgizer.com", mPasswordField.getText().toString());
                 break;
             case R.id.sign_in_button:
-                signIn(mNameField.getText().toString().toLowerCase() + mSurnameField.getText().toString().toLowerCase() + "@ergizgizer.com", mNicknameField.getText().toString());
+                signIn(mNameField.getText().toString().toLowerCase() + mSurnameField.getText().toString().toLowerCase() + "@ergizgizer.com", mPasswordField.getText().toString());
                 break;
         }
     }
@@ -186,12 +189,12 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
             mSurnameField.setError(null);
         }
 
-        String nickname = mNicknameField.getText().toString();
-        if (TextUtils.isEmpty(nickname)) {
-            mNicknameField.setError("Required.");
+        String password = mPasswordField.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            mPasswordField.setError("Required");
             valid = false;
         } else {
-            mNicknameField.setError(null);
+            mPasswordField.setError(null);
         }
 
         return valid;

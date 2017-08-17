@@ -7,4 +7,5 @@
     <color name="colorRed">#FF0000</color>
     <color name="colorBlue">#2196F3</color>
     <color name="colorOrange">#FF9800</color>
+    <color name="actionBarText">#424242</color>
 </resources>

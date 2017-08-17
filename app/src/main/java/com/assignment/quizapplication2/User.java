@@ -3,36 +3,48 @@ package com.assignment.quizapplication2;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class User implements Parcelable {
 
     private String mName;
     private String mNickname;
     private int mScore;
+    private ArrayList<User> mFriends;
 
     /*public User() {
         this.mNickname = "";
     }*/
 
     private User() {
+    }
 
+    public User(User user) {
+        this.mName = user.getmName();
+        this.mNickname = user.getmNickname();
+        this.mScore = user.getmScore();
+        this.mFriends = user.getmFriends();
     }
 
     public User(String name, String nickname) {
         this.mName = name;
         this.mNickname = nickname;
         this.mScore = 0;
+        this.mFriends = new ArrayList<>();
     }
 
     public User(String name, String nickname, int score) {
         this.mName = name;
         this.mNickname = nickname;
         this.mScore = score;
+        this.mFriends = new ArrayList<>();
     }
 
     private User(Parcel source) {
         this.mName = source.readString();
         this.mNickname = source.readString();
         this.mScore = source.readInt();
+        this.mFriends = source.readArrayList(User.class.getClassLoader());
     }
 
     public String getmName() {
@@ -57,6 +69,14 @@ public class User implements Parcelable {
 
     public void setmScore(int score) {
         this.mScore = score;
+    }
+
+    public ArrayList<User> getmFriends() {
+        return mFriends;
+    }
+
+    public void setmFriends(ArrayList<User> friends) {
+        this.mFriends = friends;
     }
 
     public void answeredCorrectly(int won) {
@@ -89,5 +109,7 @@ public class User implements Parcelable {
         dest.writeString(mName);
         dest.writeString(mNickname);
         dest.writeInt(mScore);
+        dest.writeList(mFriends);
+
     }
 }

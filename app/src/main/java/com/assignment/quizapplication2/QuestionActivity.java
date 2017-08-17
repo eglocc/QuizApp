@@ -10,7 +10,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import static com.assignment.quizapplication2.LoginActivity.sUser;
+import static com.assignment.quizapplication2.SignInActivity.sUser;
 
 public class QuestionActivity extends AppCompatActivity implements QuestionFragment.AnswerListener, QuizConstants {
 

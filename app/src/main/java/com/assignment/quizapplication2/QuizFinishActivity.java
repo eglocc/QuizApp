@@ -6,10 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import static com.assignment.quizapplication2.LoginActivity.sUser;
 import static com.assignment.quizapplication2.QuizConstants.CLICKED_CATEGORY_POSITION;
 import static com.assignment.quizapplication2.QuizConstants.POINTS_ON;
 import static com.assignment.quizapplication2.QuizConstants.QUESTION_ON;
+import static com.assignment.quizapplication2.SignInActivity.sUser;
 
 public class QuizFinishActivity extends AppCompatActivity {
 

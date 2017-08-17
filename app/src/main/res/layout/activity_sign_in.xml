@@ -46,6 +46,15 @@
             android:hint="@string/nickname"
             android:inputType="text" />
 
+        <EditText
+            android:id="@+id/set_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="8"
+            android:fontFamily="sans-serif-medium"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
+
         <Button
             android:id="@+id/create_account_button"
             android:layout_width="wrap_content"

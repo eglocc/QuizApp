@@ -12,7 +12,7 @@
     <string name="start">Start</string>
     <string name="question">Question</string>
     <string name="times_up">Time\'s Up!</string>
-    <string name="categories">Categorıes</string>
+    <string name="categories">Categories</string>
     <string name="correct">Correct!</string>
     <string name="wrong">Wrong!</string>
     <string name="category">Category: </string>
@@ -23,6 +23,7 @@
     <string name="loading_data_failed">Retrieving data failed!</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
+    <string name="password">Password</string>
     <string name="create_account">Create Account</string>
     <string name="sign_in">Sıgn In</string>
     <string name="loading">Loading...</string>
@@ -30,11 +31,14 @@
     <string name="top_10_players">Top 10 Players</string>
 
     <string-array name="drawer_items">
-        <item>Home</item>
+        <item>High Scores</item>
         <item>Profile</item>
         <item>Categories</item>
         <item>Friends</item>
     </string-array>
+
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
 
     <string name="user_profile_headline">User Profile</string>
     <string name="user_name">Name:</string>
@@ -43,4 +47,8 @@
     <string name="user_friends">My Friends:</string>
     <string name="save_changes">Save Changes</string>
     <string name="edit"><u>edit</u></string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_play">Play</string>
+    <string name="action_search">Search</string>
 </resources>

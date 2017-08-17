@@ -7,114 +7,140 @@
     android:layout_margin="@dimen/space_between_views"
     android:gravity="center">
 
-    <GridLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="3">
+        android:gravity="center">
 
-        <TextView
-            android:id="@+id/user_name_label"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="@dimen/space_between_views"
-            android:text="@string/user_name" />
+            android:gravity="bottom">
 
-        <EditText
-            android:id="@+id/user_name_field"
+            <TextView
+                android:id="@+id/user_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:paddingBottom="@dimen/space_between_views"
+                android:paddingRight="25sp"
+                android:text="@string/user_name" />
+
+            <EditText
+                android:id="@+id/user_name_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_between_views_half"
+                android:layout_marginRight="@dimen/space_between_views_half"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/edit_button_name"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/space_between_views"
+                android:layout_marginLeft="@dimen/space_between_views"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/pencil_xsmall"
+                android:drawableLeft="@drawable/pencil_xsmall"
+                android:text="@string/edit"
+                android:textSize="@dimen/edit_button_info_text_size"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/space_between_views_half"
-            android:enabled="false"
-            android:inputType="text" />
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/edit_button_name"
-            android:layout_width="40sp"
-            android:layout_height="20sp"
-            android:layout_gravity="bottom"
-            android:gravity="bottom"
-            android:padding="2dp"
-            android:layout_marginBottom="@dimen/space_between_views"
-            android:layout_marginLeft="@dimen/space_between_views"
-            android:background="@android:color/transparent"
-            android:drawableStart="@drawable/pencil_xsmall"
-            android:drawableLeft="@drawable/pencil_xsmall"
-            android:text="@string/edit"
-            android:textSize="@dimen/edit_button_info_text_size"
-            android:textAllCaps="false" />
+            <TextView
+                android:id="@+id/user_surname_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:paddingRight="6sp"
+                android:paddingBottom="@dimen/space_between_views"
+                android:text="@string/user_surname" />
 
-        <TextView
-            android:id="@+id/user_surname_label"
+            <EditText
+                android:id="@+id/user_surname_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_between_views_half"
+                android:layout_marginRight="@dimen/space_between_views_half"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/edit_button_surname"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/space_between_views"
+                android:layout_marginLeft="@dimen/space_between_views"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/pencil_xsmall"
+                android:drawableLeft="@drawable/pencil_xsmall"
+                android:text="@string/edit"
+                android:textSize="@dimen/edit_button_info_text_size"
+                android:textAllCaps="false" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="@dimen/space_between_views"
-            android:text="@string/user_surname" />
+            android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/user_surname_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/space_between_views_half"
-            android:enabled="false"
-            android:inputType="text" />
+            <TextView
+                android:id="@+id/user_nickname_label"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:paddingBottom="@dimen/space_between_views"
+                android:text="@string/user_nickname" />
 
-        <Button
-            android:id="@+id/edit_button_surname"
-            android:layout_width="40sp"
-            android:layout_height="20sp"
-            android:layout_gravity="bottom"
-            android:gravity="bottom"
-            android:padding="2dp"
-            android:layout_marginBottom="@dimen/space_between_views"
-            android:layout_marginLeft="@dimen/space_between_views"
-            android:background="@android:color/transparent"
-            android:drawableStart="@drawable/pencil_xsmall"
-            android:drawableLeft="@drawable/pencil_xsmall"
-            android:text="@string/edit"
-            android:textSize="@dimen/edit_button_info_text_size"
-            android:textAllCaps="false" />
+            <EditText
+                android:id="@+id/user_nickname_field"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_between_views_half"
+                android:layout_marginRight="@dimen/space_between_views_half"
+                android:layout_gravity="center"
+                android:enabled="false"
+                android:inputType="text" />
 
-        <TextView
-            android:id="@+id/user_nickname_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:paddingBottom="@dimen/space_between_views"
-            android:text="@string/user_nickname" />
+            <Button
+                android:id="@+id/edit_button_nickname"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/space_between_views"
+                android:layout_marginLeft="@dimen/space_between_views"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/pencil_xsmall"
+                android:drawableLeft="@drawable/pencil_xsmall"
+                android:text="@string/edit"
+                android:textSize="@dimen/edit_button_info_text_size"
+                android:textAllCaps="false" />
 
-        <EditText
-            android:id="@+id/user_nickname_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/space_between_views_half"
-            android:enabled="false"
-            android:inputType="text" />
+        </LinearLayout>
 
-        <Button
-            android:id="@+id/edit_button_nickname"
-            android:layout_width="40sp"
-            android:layout_height="20sp"
-            android:layout_gravity="bottom"
-            android:gravity="bottom"
-            android:padding="2dp"
-            android:layout_marginBottom="@dimen/space_between_views"
-            android:layout_marginLeft="@dimen/space_between_views"
-            android:background="@android:color/transparent"
-            android:drawableStart="@drawable/pencil_xsmall"
-            android:drawableLeft="@drawable/pencil_xsmall"
-            android:text="@string/edit"
-            android:textSize="@dimen/edit_button_info_text_size"
-            android:textAllCaps="false" />
 
-    </GridLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/save_changes"
         android:layout_width="wrap_content"
-        android:layout_height="32sp"
+        android:layout_height="wrap_content"
         android:text="@string/save_changes"
-        android:textSize="8sp" />
+        android:enabled="false" />
 
 </LinearLayout>

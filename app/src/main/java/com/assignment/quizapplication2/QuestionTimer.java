@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import static com.assignment.quizapplication2.LoginActivity.sUser;
+import static com.assignment.quizapplication2.SignInActivity.sUser;
 
 public class QuestionTimer extends Timer {
 
