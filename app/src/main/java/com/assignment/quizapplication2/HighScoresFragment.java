@@ -18,19 +18,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.ArrayList;
 
 public class HighScoresFragment extends Fragment {
 
     private Context mContext;
+    private View.OnClickListener mListener;
     private ListView mTop10List;
     private Button mStartButton;
-    private CopyOnWriteArrayList<User> mTop10Users;
+    private ArrayList<User> mTop10Users;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+        mListener = (MainActivity) context;
     }
 
     @Nullable
@@ -39,7 +41,8 @@ public class HighScoresFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_high_scores, container, false);
         mTop10List = (ListView) view.findViewById(R.id.top_10_players_list);
         mStartButton = (Button) view.findViewById(R.id.start_button);
-
+        loadTop10Players();
+        mStartButton.setOnClickListener(mListener);
         return view;
     }
 
@@ -50,7 +53,7 @@ public class HighScoresFragment extends Fragment {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mTop10Users = new CopyOnWriteArrayList<>();
+                mTop10Users = new ArrayList<>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     mTop10Users.add(child.getValue(User.class));
                 }
@@ -60,7 +63,7 @@ public class HighScoresFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(mContext, getString(R.string.loading_data_failed), Toast.LENGTH_SHORT);
+                Toast.makeText(mContext, getString(R.string.loading_data_failed), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -15,7 +15,7 @@ import static com.assignment.quizapplication2.LoginActivity.sUser;
 
 public class QuestionFragment extends Fragment {
 
-    static interface AnswerListener {
+    interface AnswerListener {
         void answerClicked(View v, String clickedAnswer, boolean answerCorrect);
     }
 

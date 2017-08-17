@@ -25,17 +25,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/space_between_views_half"
-            android:enabled="false" />
+            android:enabled="false"
+            android:inputType="text" />
 
-        <ImageButton
-            android:id="@+id/edit_icon_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/edit_button_name"
+            android:layout_width="40sp"
+            android:layout_height="20sp"
             android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:padding="2dp"
             android:layout_marginBottom="@dimen/space_between_views"
             android:layout_marginLeft="@dimen/space_between_views"
             android:background="@android:color/transparent"
-            android:src="@drawable/pencil_xsmall" />
+            android:drawableStart="@drawable/pencil_xsmall"
+            android:drawableLeft="@drawable/pencil_xsmall"
+            android:text="@string/edit"
+            android:textSize="@dimen/edit_button_info_text_size"
+            android:textAllCaps="false" />
 
         <TextView
             android:id="@+id/user_surname_label"
@@ -43,8 +50,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:paddingBottom="@dimen/space_between_views"
-            android:paddingEnd="@dimen/edit_padding_surname"
-            android:paddingRight="@dimen/edit_padding_surname"
             android:text="@string/user_surname" />
 
         <EditText
@@ -52,17 +57,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/space_between_views_half"
-            android:enabled="false" />
+            android:enabled="false"
+            android:inputType="text" />
 
-        <ImageButton
-            android:id="@+id/edit_icon_surname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/edit_button_surname"
+            android:layout_width="40sp"
+            android:layout_height="20sp"
             android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:padding="2dp"
             android:layout_marginBottom="@dimen/space_between_views"
             android:layout_marginLeft="@dimen/space_between_views"
             android:background="@android:color/transparent"
-            android:src="@drawable/pencil_xsmall" />
+            android:drawableStart="@drawable/pencil_xsmall"
+            android:drawableLeft="@drawable/pencil_xsmall"
+            android:text="@string/edit"
+            android:textSize="@dimen/edit_button_info_text_size"
+            android:textAllCaps="false" />
 
         <TextView
             android:id="@+id/user_nickname_label"
@@ -77,17 +89,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/space_between_views_half"
-            android:enabled="false" />
+            android:enabled="false"
+            android:inputType="text" />
 
-        <ImageButton
-            android:id="@+id/edit_icon_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/edit_button_nickname"
+            android:layout_width="40sp"
+            android:layout_height="20sp"
             android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:padding="2dp"
             android:layout_marginBottom="@dimen/space_between_views"
             android:layout_marginLeft="@dimen/space_between_views"
             android:background="@android:color/transparent"
-            android:src="@drawable/pencil_xsmall" />
+            android:drawableStart="@drawable/pencil_xsmall"
+            android:drawableLeft="@drawable/pencil_xsmall"
+            android:text="@string/edit"
+            android:textSize="@dimen/edit_button_info_text_size"
+            android:textAllCaps="false" />
 
     </GridLayout>
 

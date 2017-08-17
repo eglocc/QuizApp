@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
 import static com.assignment.quizapplication2.LoginActivity.sUser;
 
 public class CategoryActivity extends AppCompatActivity
-        implements CategoryFragment.CategoryListListener, PointsFragment.QuestionListListener, QuestionFragment.AnswerListener,
+        implements AdapterView.OnItemClickListener, PointsFragment.QuestionListListener, QuestionFragment.AnswerListener,
         QuizConstants {
 
     private View mFragmentContainer;
@@ -96,7 +97,7 @@ public class CategoryActivity extends AppCompatActivity
             mFragmentContainer.setVisibility(View.INVISIBLE);
             mPointsFragmentIsOn = false;
         } else {
-            backToLoginActivity();
+            backToMainActivity();
         }
     }
 
@@ -109,27 +110,6 @@ public class CategoryActivity extends AppCompatActivity
         savedInstanceState.putBoolean(CATEGORY_CLICKED, mCategoryClicked);
         savedInstanceState.putBoolean(QUESTION_ON, mQuestionFragmentIsOn);
         savedInstanceState.putBoolean(POINTS_ON, mPointsFragmentIsOn);
-    }
-
-    @Override
-    public void categoryClicked(int position) {
-        if (mFragmentContainer != null) {
-            mCategoryClicked = true;
-            mPointsFragmentIsOn = true;
-            mQuestionFragmentIsOn = false;
-            mBundle.putInt(CLICKED_CATEGORY_POSITION, position);
-            mFragmentContainer.setVisibility(View.VISIBLE);
-            transactToQuestionList(position);
-        } else {
-            int oldCategoryId = mBundle.getInt(CLICKED_CATEGORY_POSITION);
-            boolean categoryChanged = oldCategoryId != position;
-            if (categoryChanged)
-                QuestionActivity.sQuizFinished = false;
-            Intent intent = new Intent(this, PointsActivity.class);
-            mBundle.putInt(CLICKED_CATEGORY_POSITION, position);
-            intent.putExtras(mBundle);
-            startActivity(intent);
-        }
     }
 
     @Override
@@ -243,6 +223,12 @@ public class CategoryActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    private void backToMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtras(mBundle);
+        startActivity(intent);
+    }
+
     private void goToQuizFinishActivity() {
         Intent intent = new Intent(this, QuizFinishActivity.class);
         intent.putExtras(mBundle);
@@ -254,7 +240,7 @@ public class CategoryActivity extends AppCompatActivity
      *
      * @param id   should be current question id
      * @param list should be question list which is iterated
-     * @return
+     * @return unanswered question index
      */
     @Override
     public int findUnAnsweredQuestion(int id, List<Question> list) {
@@ -269,5 +255,26 @@ public class CategoryActivity extends AppCompatActivity
                 return q.getmQuestionId();
         }
         return -1;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        if (mFragmentContainer != null) {
+            mCategoryClicked = true;
+            mPointsFragmentIsOn = true;
+            mQuestionFragmentIsOn = false;
+            mBundle.putInt(CLICKED_CATEGORY_POSITION, position);
+            mFragmentContainer.setVisibility(View.VISIBLE);
+            transactToQuestionList(position);
+        } else {
+            int oldCategoryId = mBundle.getInt(CLICKED_CATEGORY_POSITION);
+            boolean categoryChanged = oldCategoryId != position;
+            if (categoryChanged)
+                QuestionActivity.sQuizFinished = false;
+            Intent intent = new Intent(this, PointsActivity.class);
+            mBundle.putInt(CLICKED_CATEGORY_POSITION, position);
+            intent.putExtras(mBundle);
+            startActivity(intent);
+        }
     }
 }

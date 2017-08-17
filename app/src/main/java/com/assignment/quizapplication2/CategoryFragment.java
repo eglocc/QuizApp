@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -21,12 +22,8 @@ import static com.assignment.quizapplication2.Category.mCategoryList;
 
 public class CategoryFragment extends ListFragment {
 
-    static interface CategoryListListener {
-        void categoryClicked(int position);
-    }
-
     private DatabaseReference mDatabase;
-    private CategoryListListener mListener;
+    private AdapterView.OnItemClickListener mListener;
 
     private void loadCategoryNames(final LayoutInflater inflater) {
         Query queryRef = mDatabase.child("categories").orderByChild("mCategoryName");
@@ -42,7 +39,7 @@ public class CategoryFragment extends ListFragment {
                     count++;
                 }
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(inflater.getContext(), android.R.layout.simple_list_item_1, names);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(inflater.getContext(), android.R.layout.simple_list_item_1, names);
                 setListAdapter(adapter);
             }
 
@@ -56,7 +53,7 @@ public class CategoryFragment extends ListFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.mListener = (CategoryListListener) context;
+        this.mListener = (AdapterView.OnItemClickListener) context;
     }
 
     @Override
@@ -74,7 +71,7 @@ public class CategoryFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         if (mListener != null) {
-            mListener.categoryClicked(position);
+            mListener.onItemClick(l, v, position, id);
         }
     }
 }

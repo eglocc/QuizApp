@@ -42,4 +42,5 @@
     <string name="user_nickname">Nickname:</string>
     <string name="user_friends">My Friends:</string>
     <string name="save_changes">Save Changes</string>
+    <string name="edit"><u>edit</u></string>
 </resources>
