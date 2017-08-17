@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/rounded_button"
-        android:text="FROM THE BEGINNING"
         android:padding="@dimen/answer_button_padding" />
 
 </RelativeLayout>

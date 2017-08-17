@@ -1,7 +1,6 @@
 package com.assignment.quizapplication2;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -21,18 +20,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.assignment.quizapplication2.LoginActivity.sUser;
+
 public class SignInActivity extends BaseActivity implements View.OnClickListener {
 
     private static final String TAG = SignInActivity.class.getSimpleName();
 
     private static final String msOnAuthStateChangedSignedIn = "onAuthStateChanged:signed_in:";
     private static final String msOnAuthStateChangedSignedOut = "onAuthStateChanged:signed_out";
-    private static final String msCreateAccount = "createAccount:";
-    private static final String msSignIn = "signIn";
-    private static final String msCreateUserSuccess = "createUser:success";
-    private static final String msCreateUserFailed = "createUser:failed";
-    private static final String msSignInSuccess = "signIn:success";
-    private static final String msSignInFailed = "signIn:failed";
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -79,21 +74,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     protected void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            // Name, email address, and profile photo Url
-            String name = user.getDisplayName();
-            String email = user.getEmail();
-            Uri photoUrl = user.getPhotoUrl();
-
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getToken() instead.
-            String uid = user.getUid();
-
-            //updateUI(currentUser);
-        }
-
     }
 
     @Override
@@ -106,7 +86,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void createAccount(String email, String password) {
-        Log.d(TAG, msCreateAccount + email);
         if (!validateForm()) {
             return;
         }
@@ -117,14 +96,14 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, msCreateUserSuccess);
                     FirebaseUser user = mAuth.getCurrentUser();
                     Map<String, Object> users = new HashMap<>();
-                    users.put(user.getUid(), new User(mNameField.getText().toString() + " " + mSurnameField.getText().toString(), mNicknameField.getText().toString()));
+                    User customUser = new User(mNameField.getText().toString() + " " + mSurnameField.getText().toString(), mNicknameField.getText().toString());
+                    users.put(user.getUid(), customUser);
                     mUsersRef.updateChildren(users);
+                    sUser = customUser;
                     updateUI(user);
                 } else {
-                    Log.w(TAG, msCreateUserFailed, task.getException());
                     Toast.makeText(SignInActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
                 }
 
@@ -134,7 +113,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void signIn(String email, String password) {
-        Log.d(TAG, msSignIn + email);
         if (!validateForm()) {
             return;
         }
@@ -145,11 +123,9 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Log.d(TAG, msSignInSuccess);
                     FirebaseUser user = mAuth.getCurrentUser();
                     updateUI(user);
                 } else {
-                    Log.w(TAG, msSignInFailed, task.getException());
                     Toast.makeText(SignInActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
                 }
 
@@ -160,7 +136,6 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
 
     private void signOut() {
         mAuth.signOut();
-        //updateUI(null);
     }
 
     @Override
@@ -194,7 +169,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
         }
 
         String nickname = mNicknameField.getText().toString();
-        if (TextUtils.isEmpty(surname)) {
+        if (TextUtils.isEmpty(nickname)) {
             mNicknameField.setError("Required.");
             valid = false;
         } else {
@@ -207,7 +182,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            Intent i = new Intent(SignInActivity.this, CategoryActivity.class);
+            Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         }
     }

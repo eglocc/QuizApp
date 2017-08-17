@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/edit_name_layout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/space_between_views"
+    android:gravity="center">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3">
+
+        <TextView
+            android:id="@+id/user_name_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingBottom="@dimen/space_between_views"
+            android:text="@string/user_name" />
+
+        <EditText
+            android:id="@+id/user_name_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_between_views_half"
+            android:enabled="false" />
+
+        <ImageButton
+            android:id="@+id/edit_icon_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/space_between_views"
+            android:layout_marginLeft="@dimen/space_between_views"
+            android:background="@android:color/transparent"
+            android:src="@drawable/pencil_xsmall" />
+
+        <TextView
+            android:id="@+id/user_surname_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingBottom="@dimen/space_between_views"
+            android:paddingEnd="@dimen/edit_padding_surname"
+            android:paddingRight="@dimen/edit_padding_surname"
+            android:text="@string/user_surname" />
+
+        <EditText
+            android:id="@+id/user_surname_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_between_views_half"
+            android:enabled="false" />
+
+        <ImageButton
+            android:id="@+id/edit_icon_surname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/space_between_views"
+            android:layout_marginLeft="@dimen/space_between_views"
+            android:background="@android:color/transparent"
+            android:src="@drawable/pencil_xsmall" />
+
+        <TextView
+            android:id="@+id/user_nickname_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:paddingBottom="@dimen/space_between_views"
+            android:text="@string/user_nickname" />
+
+        <EditText
+            android:id="@+id/user_nickname_field"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_between_views_half"
+            android:enabled="false" />
+
+        <ImageButton
+            android:id="@+id/edit_icon_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="@dimen/space_between_views"
+            android:layout_marginLeft="@dimen/space_between_views"
+            android:background="@android:color/transparent"
+            android:src="@drawable/pencil_xsmall" />
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/save_changes"
+        android:layout_width="wrap_content"
+        android:layout_height="32sp"
+        android:text="@string/save_changes"
+        android:textSize="8sp" />
+
+</LinearLayout>
