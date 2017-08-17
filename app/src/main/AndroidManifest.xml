@@ -25,7 +25,8 @@
         <activity android:name=".QuizFinishActivity" />
         <activity android:name=".FirebaseActivity" />
         <activity android:name=".BaseActivity" />
-        <activity android:name=".OrderUsersActivtiy"></activity>
+        <activity android:name=".OrderUsersActivtiy" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

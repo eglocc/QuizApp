@@ -20,10 +20,26 @@
     <string name="points">Points: </string>
 
     <string name="auth_failed">Authentication Failed!</string>
+    <string name="loading_data_failed">Retrieving data failed!</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="create_account">Create Account</string>
     <string name="sign_in">Sıgn In</string>
     <string name="loading">Loading...</string>
     <string name="already_signed_up">You have already signed up!</string>
+    <string name="top_10_players">Top 10 Players</string>
+
+    <string-array name="drawer_items">
+        <item>Home</item>
+        <item>Profile</item>
+        <item>Categories</item>
+        <item>Friends</item>
+    </string-array>
+
+    <string name="user_profile_headline">User Profile</string>
+    <string name="user_name">Name:</string>
+    <string name="user_surname">Surname:</string>
+    <string name="user_nickname">Nickname:</string>
+    <string name="user_friends">Friends:</string>
+    <string name="save_changes">Save Changes</string>
 </resources>

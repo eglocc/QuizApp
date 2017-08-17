@@ -9,7 +9,12 @@ public class User implements Parcelable {
     private String mNickname;
     private int mScore;
 
+    /*public User() {
+        this.mNickname = "";
+    }*/
+
     private User() {
+
     }
 
     public User(String name, String nickname) {
