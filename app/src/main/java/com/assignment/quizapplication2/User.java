@@ -112,4 +112,14 @@ public class User implements Parcelable {
         dest.writeList(mFriends);
 
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof User) {
+            return mName.equals(((User) obj).getmName())
+                    && mNickname.equals(((User) obj).getmNickname())
+                    && mScore == ((User) obj).getmScore() ? true : false;
+        }
+        return false;
+    }
 }

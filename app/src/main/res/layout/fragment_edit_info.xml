@@ -26,7 +26,8 @@
                 android:gravity="bottom"
                 android:paddingBottom="@dimen/space_between_views"
                 android:paddingRight="25sp"
-                android:text="@string/user_name" />
+                android:text="@string/user_name"
+                android:textSize="@dimen/question_text_size" />
 
             <EditText
                 android:id="@+id/user_name_field"
@@ -36,11 +37,12 @@
                 android:layout_marginRight="@dimen/space_between_views_half"
                 android:layout_gravity="center"
                 android:enabled="false"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textSize="@dimen/question_text_size" />
 
             <Button
                 android:id="@+id/edit_button_name"
-                android:layout_width="40dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/space_between_views"
@@ -66,7 +68,8 @@
                 android:gravity="bottom"
                 android:paddingRight="6sp"
                 android:paddingBottom="@dimen/space_between_views"
-                android:text="@string/user_surname" />
+                android:text="@string/user_surname"
+                android:textSize="@dimen/question_text_size" />
 
             <EditText
                 android:id="@+id/user_surname_field"
@@ -76,11 +79,12 @@
                 android:layout_marginRight="@dimen/space_between_views_half"
                 android:layout_gravity="center"
                 android:enabled="false"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textSize="@dimen/question_text_size" />
 
             <Button
                 android:id="@+id/edit_button_surname"
-                android:layout_width="40dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/space_between_views"
@@ -105,7 +109,8 @@
                 android:layout_height="match_parent"
                 android:gravity="bottom"
                 android:paddingBottom="@dimen/space_between_views"
-                android:text="@string/user_nickname" />
+                android:text="@string/user_nickname"
+                android:textSize="@dimen/question_text_size" />
 
             <EditText
                 android:id="@+id/user_nickname_field"
@@ -115,11 +120,12 @@
                 android:layout_marginRight="@dimen/space_between_views_half"
                 android:layout_gravity="center"
                 android:enabled="false"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textSize="@dimen/question_text_size" />
 
             <Button
                 android:id="@+id/edit_button_nickname"
-                android:layout_width="40dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/space_between_views"

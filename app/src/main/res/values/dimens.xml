@@ -15,5 +15,5 @@
     <dimen name="space_from_edges">12dp</dimen>
     <dimen name="headline_text_size">28sp</dimen>
     <dimen name="answer_button_padding">16dp</dimen>
-    <dimen name="edit_button_info_text_size">8dp</dimen>
+    <dimen name="edit_button_info_text_size">16sp</dimen>
 </resources>

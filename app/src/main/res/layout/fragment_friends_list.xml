@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/user_friends_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/space_between_views"
+        android:text="@string/user_friends"
+        android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/question_text_size" />
+
+    <ListView
+        android:id="@+id/friends_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_between_views"
+        android:layout_marginBottom="@dimen/space_between_views">
+
+    </ListView>
+
+</LinearLayout>

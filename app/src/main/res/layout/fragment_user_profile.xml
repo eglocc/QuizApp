@@ -21,36 +21,19 @@
         android:layout_below="@id/user_profile_headline"
         android:layout_margin="@dimen/space_between_views">
 
-        <fragment
-            class="com.assignment.quizapplication2.EditInfoFragment"
-            android:id="@+id/edit_info_fragment"
+        <FrameLayout
+            android:id="@+id/edit_info_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginRight="@dimen/space_between_views_half" />
 
-        <LinearLayout
-            android:orientation="vertical"
+        <FrameLayout
+            android:id="@+id/friends_list_container"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/space_between_views_half">
-
-            <TextView
-                android:id="@+id/user_friends_label"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/space_between_views"
-                android:text="@string/user_friends" />
-
-            <fragment
-                class="com.assignment.quizapplication2.FriendsListFragment"
-                android:id="@+id/friends_list_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-        </LinearLayout>
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/space_between_views_half" />
 
     </LinearLayout>
 

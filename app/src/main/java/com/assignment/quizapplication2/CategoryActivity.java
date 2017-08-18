@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -45,6 +46,7 @@ public class CategoryActivity extends AppCompatActivity
 
         if (savedInstanceState == null) {
             mBundle = getIntent().getExtras();
+            PointsActivity.displayBundleOnLog(mBundle);
             if (mBundle != null) {
                 mCategoryCompletedHasBeenShowed = mBundle.getBoolean(CATEGORY_COMPLETED_HAS_BEEN_SHOWED);
             } else {
@@ -98,6 +100,17 @@ public class CategoryActivity extends AppCompatActivity
             mPointsFragmentIsOn = false;
         } else {
             backToMainActivity();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                backToMainActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -217,9 +230,9 @@ public class CategoryActivity extends AppCompatActivity
     }
 
     private void backToMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtras(mBundle);
-        startActivity(intent);
+        Intent i = new Intent(this, MainActivity.class);
+        i.putExtras(mBundle);
+        startActivity(i);
     }
 
     private void goToQuizFinishActivity() {

@@ -7,10 +7,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,20 +17,30 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+import java.util.ArrayList;
+
+import static com.assignment.quizapplication2.SignInActivity.sUser;
+
+public class MainActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int TOP_10_HIGH_SCORES_FRAGMENT = 0;
     private static final int USER_PROFILE_FRAGMENT = 1;
     private static final int CATEGORY_FRAGMENT = 2;
     private static final int FRIENDS_LIST_FRAGMENT = 3;
+    private static final int SEARCH_USER_FRAGMENT = 4;
 
+    private Bundle mBundle;
+
+    private SearchView mSearchView;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    private int mDrawerListItemSelectedPosition = 0;
+    private int mDrawerListItemSelectedPosition;
 
     private ListView mDrawerList;
     private String[] mTitles;
+
+    private MyOnQueryTextListener mSearchListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +51,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerList = (ListView) findViewById(R.id.drawer_list);
         mDrawerList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, mTitles));
         mDrawerList.setOnItemClickListener(this);
+        mSearchListener = new MyOnQueryTextListener(this);
+
+        mBundle = getIntent().getExtras();
+        if (mBundle == null) {
+            mBundle = new Bundle();
+        } else {
+            mDrawerListItemSelectedPosition = mBundle.getInt("previous_position");
+            mDrawerList.setItemChecked(mDrawerListItemSelectedPosition, true);
+        }
 
         if (savedInstanceState != null) {
             mDrawerListItemSelectedPosition = savedInstanceState.getInt("position");
@@ -78,13 +95,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mDrawerListItemSelectedPosition = 1;
                 } else if (fragment instanceof FriendsListFragment) {
                     mDrawerListItemSelectedPosition = 3;
+                } else if (fragment instanceof SearchFragment) {
+                    mDrawerListItemSelectedPosition = 4;
                 }
+                setActionBarTitle(mDrawerListItemSelectedPosition);
                 mDrawerList.setItemChecked(mDrawerListItemSelectedPosition, true);
             }
         });
     }
 
     private void updateUI(int position) {
+        mBundle.putInt("previous_position", mDrawerListItemSelectedPosition);
         mDrawerListItemSelectedPosition = position;
         Fragment fragment = null;
         switch (position) {
@@ -93,18 +114,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case CATEGORY_FRAGMENT:
                 Intent i = new Intent(this, CategoryActivity.class);
+                i.putExtras(mBundle);
                 startActivity(i);
                 break;
             case FRIENDS_LIST_FRAGMENT:
                 fragment = new FriendsListFragment();
+                break;
+            case SEARCH_USER_FRAGMENT:
+                fragment = new SearchFragment();
                 break;
             default:
                 fragment = new HighScoresFragment();
         }
 
         if (fragment != null) {
+            if (fragment instanceof UserProfileFragment) {
+                ((UserProfileFragment) fragment).setmFriends(sUser.getmFriends());
+            } else if (fragment instanceof FriendsListFragment) {
+                ((FriendsListFragment) fragment).setmFriendsList(sUser.getmFriends());
+            }
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.content_frame, fragment, "visible_fragment");
+            mSearchListener.setmVisibleFragment(fragment);
             ft.addToBackStack(null);
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             ft.commit();
@@ -160,14 +191,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        mSearchView.setSubmitButtonEnabled(true);
+        mSearchView.setIconifiedByDefault(false);
+        mSearchView.setOnQueryTextListener(mSearchListener);
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onSearchRequested() {
-        return super.onSearchRequested();
+    protected void doMySearch(String query) {
+        ArrayList<User> subFriendList = new ArrayList<>();
+        if (sUser.getmFriends() != null) {
+            for (User user : sUser.getmFriends()) {
+                if (user.getmNickname().equals(query)) {
+                    subFriendList.add(user);
+                }
+            }
+        }
+        FriendsListFragment fragment = new FriendsListFragment();
+        fragment.setmFriendsList(subFriendList);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.content_frame, fragment, "visible_fragment");
+        mSearchListener.setmVisibleFragment(fragment);
+        ft.addToBackStack(null);
+        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        ft.commit();
     }
 
     @Override
@@ -177,8 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         switch (item.getItemId()) {
             case R.id.action_start_game:
-                Intent i = new Intent(this, CategoryActivity.class);
-                startActivity(i);
+                updateUI(CATEGORY_FRAGMENT);
                 return true;
             case R.id.action_search:
                 return true;
