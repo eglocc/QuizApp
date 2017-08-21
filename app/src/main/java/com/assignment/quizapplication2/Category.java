@@ -2,7 +2,7 @@ package com.assignment.quizapplication2;
 
 import java.util.ArrayList;
 
-public class Category {
+public class Category implements WriteableToSQL {
 
     static ArrayList<Category> mCategoryList = new ArrayList<>();
 

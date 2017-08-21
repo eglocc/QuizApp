@@ -33,8 +33,8 @@ class QuestionBank {
             "What is George Michael's first solo hit called?",
             "Which one of the following composers wrote the six Brandenburg Concertos?",
             "Which country won the Eurovision Song Contest in 2004?",
-            "What does the musical term da capo mean",
-            "Who is the singer of Born Free"};
+            "What does the musical term da capo mean?",
+            "Who is the singer of Born Free?"};
 
     static String[] sHistoryQuestions = {
             "",

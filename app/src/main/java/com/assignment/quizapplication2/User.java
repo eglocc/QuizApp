@@ -5,28 +5,28 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class User implements Parcelable {
+public class User implements Parcelable, WriteableToSQL {
 
+    private String mUID;
     private String mName;
     private String mNickname;
     private int mScore;
     private ArrayList<User> mFriends;
 
-    /*public User() {
-        this.mNickname = "";
-    }*/
 
-    private User() {
+    public User() {
     }
 
     public User(User user) {
+        this.mUID = user.getmUID();
         this.mName = user.getmName();
         this.mNickname = user.getmNickname();
         this.mScore = user.getmScore();
         this.mFriends = user.getmFriends();
     }
 
-    public User(String name, String nickname) {
+    public User(String uid, String name, String nickname) {
+        this.mUID = uid;
         this.mName = name;
         this.mNickname = nickname;
         this.mScore = 0;
@@ -41,10 +41,19 @@ public class User implements Parcelable {
     }
 
     private User(Parcel source) {
+        this.mUID = source.readString();
         this.mName = source.readString();
         this.mNickname = source.readString();
         this.mScore = source.readInt();
         this.mFriends = source.readArrayList(User.class.getClassLoader());
+    }
+
+    public String getmUID() {
+        return mUID;
+    }
+
+    public void setmUID(String uid) {
+        this.mUID = uid;
     }
 
     public String getmName() {
@@ -106,6 +115,7 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mUID);
         dest.writeString(mName);
         dest.writeString(mNickname);
         dest.writeInt(mScore);
@@ -116,9 +126,7 @@ public class User implements Parcelable {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof User) {
-            return mName.equals(((User) obj).getmName())
-                    && mNickname.equals(((User) obj).getmNickname())
-                    && mScore == ((User) obj).getmScore() ? true : false;
+            return mUID.equals(((User) obj).getmUID()) ? true : false;
         }
         return false;
     }

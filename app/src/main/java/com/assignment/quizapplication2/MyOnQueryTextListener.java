@@ -32,8 +32,7 @@ public class MyOnQueryTextListener implements SearchView.OnQueryTextListener {
     @Override
     public boolean onQueryTextSubmit(String query) {
         if (mVisibleFragment != null &&
-                (mVisibleFragment instanceof FriendsListFragment || mVisibleFragment instanceof UserProfileFragment
-                        || mVisibleFragment instanceof SearchFragment)) {
+                (mVisibleFragment instanceof FriendsListFragment || mVisibleFragment instanceof SearchFragment)) {
             if (mContext instanceof MainActivity) {
                 final ArrayList<User> searchedUsers = new ArrayList<>();
                 Query search = mUsersRef.orderByChild("mNickname").equalTo(query);

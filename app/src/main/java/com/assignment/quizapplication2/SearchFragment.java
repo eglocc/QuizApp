@@ -74,7 +74,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 removeButton.setOnClickListener(this);
             } else {
                 addButton.setVisibility(View.INVISIBLE);
-                addButton.setVisibility(View.INVISIBLE);
+                removeButton.setVisibility(View.INVISIBLE);
             }
         }
         return view;
@@ -82,27 +82,43 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        ArrayList<User> currentFriends = sUser.getmFriends();
         switch (v.getId()) {
             case R.id.add_friend_button:
-                if (sUser.getmFriends() == null) {
+                if (currentFriends == null) {
                     sUser.setmFriends(new ArrayList<User>());
+                    //Check
+                    currentFriends = sUser.getmFriends();
                 }
                 for (int i = 0; i < mSelectedUsers.length; i++) {
                     if (mSelectedUsers[i])
-                        sUser.getmFriends().add(mSearchedUsers.get(i));
+                        currentFriends.add(mSearchedUsers.get(i));
 
                 }
-                Log.d(TAG, sUser.getmFriends().toString());
+                Log.d(TAG, currentFriends.toString());
+                int currentFriendsSize = currentFriends.size();
+                if (currentFriendsSize > 0) {
+                    User[] addFriends = new User[currentFriendsSize];
+                    addFriends = currentFriends.toArray(addFriends);
+                    new WriteSQLDataTask(mContext, WriteSQLDataTask.TaskType.ADD).execute(addFriends);
+                }
                 break;
             case R.id.remove_friend_button:
-                ArrayList<User> currentFriends = sUser.getmFriends();
+                ArrayList<User> removedFriends = new ArrayList<>();
                 if (currentFriends != null) {
                     for (int i = 0; i < mSelectedUsers.length; i++) {
                         User candidateForRemoval = mSearchedUsers.get(i);
                         if (mSelectedUsers[i] && currentFriends.contains(candidateForRemoval)) {
                             currentFriends.remove(candidateForRemoval);
+                            removedFriends.add(candidateForRemoval);
                         }
                     }
+                }
+                int removedFriendsSize = removedFriends.size();
+                if (removedFriendsSize > 0) {
+                    User[] removal = new User[removedFriendsSize];
+                    removal = removedFriends.toArray(removal);
+                    new WriteSQLDataTask(mContext, WriteSQLDataTask.TaskType.REMOVE).execute(removal);
                 }
                 break;
             default:

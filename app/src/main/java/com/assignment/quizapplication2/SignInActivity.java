@@ -107,7 +107,7 @@ public class SignInActivity extends BaseActivity implements View.OnClickListener
                     if (TextUtils.isEmpty(nickname)) {
                         nickname = "Anonymous";
                     }
-                    User customUser = new User(mNameField.getText().toString() + " " + mSurnameField.getText().toString(), nickname);
+                    User customUser = new User(user.getUid(), mNameField.getText().toString() + " " + mSurnameField.getText().toString(), nickname);
                     users.put(user.getUid(), customUser);
                     mUsersRef.updateChildren(users);
                     sUser = new User(customUser);

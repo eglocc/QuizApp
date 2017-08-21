@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import static com.assignment.quizapplication2.QuizConstants.CLICKED_CATEGORY_POSITION;
 import static com.assignment.quizapplication2.QuizConstants.POINTS_ON;
 import static com.assignment.quizapplication2.QuizConstants.QUESTION_ON;
@@ -38,6 +43,9 @@ public class QuizFinishActivity extends AppCompatActivity {
         mScoreView.setText(String.valueOf(sUser.getmScore()));
         mCategoryView.setText(mCategoryName);
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
+        ref.setValue(sUser);
     }
 
     @Override
